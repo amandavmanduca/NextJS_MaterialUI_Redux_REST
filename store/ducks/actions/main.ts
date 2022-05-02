@@ -24,3 +24,29 @@ export const userLogin = ({
         session_duration_in_seconds: session_duration_in_seconds,
     }
 });
+
+
+export const setCompanyData = (values: any) => ({
+    type: t.COMPANY_DATA,
+    payload: {
+        id: values.id,
+        name: values.name,
+        cnpj: values.cnpj,
+        description: values.description,
+        responsibles: values.responsibles,
+    }
+});
+
+export const addResponsibleToCompany = (values: any) => ({
+    type: t.ADD_RESPONSIBLE,
+    payload: {
+        responsible: values,
+    }
+});
+
+export const removeResponsibleFromCompany = (values: any) => ({
+    type: t.REMOVE_RESPONSIBLE,
+    payload: {
+        responsible: values,
+    }
+});

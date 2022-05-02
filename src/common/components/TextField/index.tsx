@@ -1,0 +1,37 @@
+import { TextField } from "@mui/material"
+
+
+export const FormTextField = ({
+    name,
+    touched,
+    error,
+    handleChange,
+    handleBlur,
+    label,
+    value,
+    isRequired = true,
+    readOnly = false,
+    onChange,
+}: any) => {
+    return (
+        <TextField
+            margin="normal"
+            variant="outlined"
+            label={label}
+            name={name}
+            value={value}
+            required={isRequired}
+            helperText={
+                touched && error
+                ? error
+                : ""
+            }
+            InputProps={{
+                readOnly: readOnly,
+            }}
+            error={Boolean(touched && error)}
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
+    )
+}

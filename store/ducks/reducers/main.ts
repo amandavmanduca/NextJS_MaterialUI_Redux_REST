@@ -27,7 +27,37 @@ const loggedUser = (state = {
     }
 };
 
+const companyData = (state = {
+    id: null,
+    name: null,
+    cnpj: null,
+    description: null,
+    responsibles: [],
+}, action: any) => {
+    switch(action.type) {
+        case t.COMPANY_DATA:
+            return {
+                ...action.payload,
+                responsibles: [...state.responsibles],
+            };
+        case t.ADD_RESPONSIBLE:
+            return {
+                ...state,
+                responsibles: [...state.responsibles, { ...action.payload.responsible }]
+            };
+        case t.REMOVE_RESPONSIBLE:
+            const filteredResponsible = state.responsibles?.filter((r: any) => r.name != action.payload.responsible.name)
+            return {
+                ...state,
+                responsibles: [...filteredResponsible]
+            };
+        default:
+            return { ... state }
+    }
+};
+
 export {
     main,
-    loggedUser
+    loggedUser,
+    companyData,
 };

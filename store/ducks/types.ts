@@ -1,3 +1,9 @@
 export const SET_NAME = "SET_NAME";
 
 export const USER_LOGIN = "USER_LOGIN";
+
+export const COMPANY_DATA = "COMPANY_DATA";
+
+export const ADD_RESPONSIBLE = "ADD_RESPONSIBLE";
+
+export const REMOVE_RESPONSIBLE = "REMOVE_RESPONSIBLE";
