@@ -62,7 +62,7 @@ export const PlaceForm = ({
                 handleChange={handleChange}
                 handleBlur={handleBlur}
             />
-            <FormControl style={{ width: '100%' }}>
+            <FormControl style={{ width: '100%', padding: '20px', marginTop: '10px' }}>
                 <InputLabel id="demo-simple-select-label">Empresa</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"

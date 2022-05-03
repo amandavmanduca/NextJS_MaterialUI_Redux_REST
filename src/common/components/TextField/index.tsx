@@ -16,7 +16,7 @@ export const FormTextField = ({
         <TextField
             margin="normal"
             variant="outlined"
-            style={{ width: '100%', margin: 0, padding: 0 }}
+            style={{ width: '100%', margin: 0, padding: '20px', marginTop: '10px' }}
             label={label}
             name={name}
             value={value}

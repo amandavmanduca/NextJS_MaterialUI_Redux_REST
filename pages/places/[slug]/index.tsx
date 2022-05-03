@@ -47,5 +47,5 @@ export default UpdatePlace;
 
 UpdatePlace.getInitialProps = ({ query: { slug } }: any) => {
     return { slug };
-  };
+};
   
