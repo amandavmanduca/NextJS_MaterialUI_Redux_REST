@@ -1,10 +1,15 @@
 import FullPlaceForm from "../../src/common/components/FullPlaceForm";
+import { useCreatePlace } from "../../src/features/places/hooks/useCreatePlace";
 
 export default function CreatePlace() {
+  const { create } = useCreatePlace();
   return (
     <FullPlaceForm
       initialValues={{
         name: '',
+        company: {
+          id: '',
+        },
         address: {
             cep: '',
             state: '',
@@ -16,8 +21,16 @@ export default function CreatePlace() {
         },
         responsibles: []
       }}
-      onSubmit={(values: any) => {
-        console.log("onSubmit", JSON.stringify(values, null, 2));
+      onSubmit={async (values: any) => {
+        const { responsibles, ...rest } = values
+        const formatedResponsibles = responsibles?.map((r: any) => {
+          const { id, ...rest } = r
+          return { ...rest }
+        })
+        await create({
+          ...rest,
+          responsibles: formatedResponsibles
+        })
       }}
     />
   );

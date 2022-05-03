@@ -50,3 +50,10 @@ export const removeResponsibleFromCompany = (values: any) => ({
         responsible: values,
     }
 });
+
+export const createOnePlace = (values: any) => ({
+    type: t.CREATE_PLACE,
+    payload: {
+        place: values,
+    }
+})

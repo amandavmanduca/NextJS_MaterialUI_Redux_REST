@@ -56,8 +56,31 @@ const companyData = (state = {
     }
 };
 
+const placeReducer = (state = {
+    name: '',
+    company: {
+      id: '',
+    },
+    address: {
+        cep: '',
+        state: '',
+        city: '',
+        street: '',
+        neighborhood: '',
+        number: '',
+        complement: '',
+    },
+    responsibles: []
+  }, action: any) => {
+    switch(action.type) {
+        case t.CREATE_PLACE:
+            
+    }
+}
+
 export {
     main,
     loggedUser,
     companyData,
+    placeReducer,
 };

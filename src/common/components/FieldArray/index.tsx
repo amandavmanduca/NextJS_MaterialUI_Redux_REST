@@ -11,13 +11,14 @@ export const FormFieldArray = ({
     touched,
     errors,
     handleChange,
-    handleBlur
+    handleBlur,
+    setFieldValue,
 }: any) => {
     return (
         <FieldArray name={arrayName}>
         {({ push, remove }) => (
           <div>
-            {valuesArray.map((p: any, index: number) => {
+            {valuesArray?.map((p: any, index: number) => {
               return (
                 <div key={p.id}>
                     <ResponsibleForm
@@ -28,6 +29,7 @@ export const FormFieldArray = ({
                         handleChange={handleChange}
                         handleBlur={handleBlur}
                         touched={touched}
+                        setFieldValue={setFieldValue}
                     />
                     <Button
                         type="button"
@@ -47,13 +49,16 @@ export const FormFieldArray = ({
                     id: Math.random(),
                     name: "",
                     telephone: "",
-                    cep: "",
-                    state: "",
-                    city: "",
-                    neighborhood: "",
-                    street: "",
-                    number: "",
-                    complement: "",
+                    address: {
+                      cep: "",
+                      state: "",
+                      city: "",
+                      neighborhood: "",
+                      street: "",
+                      number: "",
+                      complement: "",
+                    },
+                    isPlaceMainResponsible: false,
                 })
               }
             >

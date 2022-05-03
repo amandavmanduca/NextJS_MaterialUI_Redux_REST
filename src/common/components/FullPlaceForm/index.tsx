@@ -20,26 +20,15 @@ const FullPlaceForm = ({
   initialValues,
   onSubmit
 }: any) => {
+  console.log(initialValues)
   return (
     <div>
       <Formik
-        initialValues={initialValues ?? {
-            name: '',
-            address: {
-                cep: '',
-                state: '',
-                city: '',
-                street: '',
-                neighborhood: '',
-                number: '',
-                complement: '',
-            },
-            responsibles: []
-        }}
+        initialValues={initialValues}
         // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ values, touched, errors, handleChange, handleBlur, isValid }) => (
+        {({ values, touched, errors, handleChange, handleBlur, isValid, setFieldValue }) => (
           <Form noValidate autoComplete="off">
             <PlaceForm
                 touched={touched}
@@ -47,14 +36,16 @@ const FullPlaceForm = ({
                 values={values}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
+                setFieldValue={setFieldValue}
             />
             <FormFieldArray
                 arrayName="responsibles"
-                valuesArray={values.responsibles}
+                valuesArray={values?.responsibles}
                 touched={touched}
                 errors={errors}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
+                setFieldValue={setFieldValue}
             />
             <Button
               type="submit"

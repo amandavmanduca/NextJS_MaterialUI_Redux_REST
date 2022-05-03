@@ -10,28 +10,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { connect } from 'react-redux'
-import { setInfo, userLogin } from '../store/ducks/actions/main'
 import { useLogin } from '../src/features/sign-in/hooks/useLogin';
 import { Alert, AlertColor, Snackbar } from '@mui/material';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
-function SignIn(props: any) {
-    const { userInfo, setInfo, loggedUser, userLogin } = props;
+function SignIn() {
     const [open, setOpen] = React.useState(false);
     const [modal, setModal] = React.useState<{
         severity: AlertColor;
@@ -122,7 +106,6 @@ function SignIn(props: any) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
         <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
             <Alert onClose={() => setOpen(false)} severity={modal.severity} sx={{ width: '100%' }}>
                 {modal.message}
@@ -133,14 +116,5 @@ function SignIn(props: any) {
   );
 }
 
-const mapStateToProps = (state: any) => ({
-    userInfo: state.main,
-    loggedUser: state.loggedUser
-})
 
-const mapDispatchToProps = {
-    setInfo: setInfo,
-    userLogin: userLogin,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
+export default SignIn

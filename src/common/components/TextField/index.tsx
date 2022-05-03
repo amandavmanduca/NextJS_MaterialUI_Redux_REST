@@ -11,12 +11,12 @@ export const FormTextField = ({
     value,
     isRequired = true,
     readOnly = false,
-    onChange,
 }: any) => {
     return (
         <TextField
             margin="normal"
             variant="outlined"
+            style={{ width: '100%', margin: 0, padding: 0 }}
             label={label}
             name={name}
             value={value}
