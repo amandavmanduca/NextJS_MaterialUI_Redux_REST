@@ -57,3 +57,13 @@ export const createOnePlace = (values: any) => ({
         place: values,
     }
 })
+
+export const loginHook = (values: any) => ({
+    type: t.LOGIN,
+    payload: values,
+})
+
+export const logoutHook = (values?: any) => ({
+    type: t.LOGOUT,
+    payload: values,
+})

@@ -20,7 +20,6 @@ const FullPlaceForm = ({
   initialValues,
   onSubmit
 }: any) => {
-  console.log(initialValues)
   return (
     <div>
       <Formik

@@ -62,7 +62,7 @@ export const PlaceForm = ({
                 handleChange={handleChange}
                 handleBlur={handleBlur}
             />
-            <FormControl style={{ width: '100%', padding: '20px', marginTop: '10px' }}>
+            <FormControl style={{ width: '100%' }}>
                 <InputLabel id="demo-simple-select-label">Empresa</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -73,7 +73,7 @@ export const PlaceForm = ({
                     onChange={(value: any) => setFieldValue(`company.id`, value.target.value)}
                 >
                     {companiesArray?.map(c => (
-                        <MenuItem key={c.value} style={{ padding: '5px 10px', width: '100%' }} value={c.value}>{c.label}</MenuItem>
+                        <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
                     ))}
                 </Select>
             </FormControl>

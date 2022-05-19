@@ -9,13 +9,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useLogin } from '../src/features/sign-in/hooks/useLogin';
 import { Alert, AlertColor, Snackbar } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchToken } from '../store/ducks/reducers/auth';
 
-const theme = createTheme();
-
-function SignIn() {
+function SignIn(props: any) {
     const [open, setOpen] = React.useState(false);
     const [modal, setModal] = React.useState<{
         severity: AlertColor;
@@ -25,33 +24,37 @@ function SignIn() {
         message: '',
     })
 
-    const { login } = useLogin();
+    const router = useRouter()
+    const dispatch = useDispatch()
+    //@ts-ignore
+    const auth = useSelector(data => data?.auth);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const data = await login({
-            username: String(formData.get('email')),
-            password: String(formData.get('password')),
-        });
+        const data = {
+          username: String(formData.get('email')),
+          password: String(formData.get('password')),
+        };
         if (data) {
+          await dispatch(fetchToken({ username: data.username, password: data.password }));
+          if(auth?.error) {
             setModal({
-                severity: 'success',
-                message: `Bem vindo(a), ${data?.user?.name}`
+              severity: 'warning',
+              message: auth?.error,
             })
-            
-        } else {
+          } else {
             setModal({
-                severity: 'warning',
-                message: `Erro ao realizar login`
+                severity: 'info',
+                message: `Bem vindo(a),`
             })
+            router.push('/companies')
+          }
         }
         setOpen(true);
     };
 
-
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -62,9 +65,10 @@ function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secundary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          {/* <h1 onClick={() => dispatch(logoutHook(router))}>fazer logout</h1> */}
           <Typography component="h1" variant="h5">
             Realize login
           </Typography>
@@ -112,9 +116,7 @@ function SignIn() {
             </Alert>
         </Snackbar>
       </Container>
-    </ThemeProvider>
   );
 }
-
 
 export default SignIn

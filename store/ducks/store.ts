@@ -1,11 +1,10 @@
-import { createStore, applyMiddleware, compose } from "redux"
-import thunk from "redux-thunk"
-import { createWrapper } from "next-redux-wrapper"
 import rootReducer from "./reducers/rootReducer"
+import { getDefaultMiddleware, configureStore } from '@reduxjs/toolkit'
+import { cookies } from './middlewares/logger';
 
-const middleware = [thunk]
+const middleware = [...getDefaultMiddleware(), cookies]
 
-const makeStore = () => createStore(rootReducer, compose(applyMiddleware(...middleware)))
-//const store = createStore(rootReducer, compose(applyMiddleware(...middleware)))
+const reducer = rootReducer;
 
-export const wrapper = createWrapper(makeStore)
+export const store = configureStore({ reducer, middleware })
+

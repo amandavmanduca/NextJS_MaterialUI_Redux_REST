@@ -1,34 +1,47 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import ListTemplate from "../../src/common/templates/ListTemplate";
 import { useGetPlaces } from "../../src/features/places/hooks/useGetPlaces";
 
 const PlacesPage = () => {
     const { data, getPlaces } = useGetPlaces()
-    const router = useRouter()
 
     useEffect(() => {
         getPlaces()
     }, [])
 
+    const values = data?.map((item: any) => ([
+        {
+            label: 'id',
+            value: item.id,
+        },
+        {
+            label: 'Nome',
+            value: item.name,
+        },
+        {
+            label: 'Endereço',
+            value: item.address.street + ', ' + item.address.number + ' ' + item.address.complement && `/${item.address.complement}`,
+        },
+        {
+            label: 'Cidade',
+            value: item.address.city + '/' + item.address.state,
+        },
+    ]))
+
     return (
-        <div style={{ display: 'flex', gap: '30px' }}>
-            {data?.map((place: any) => (
-                <div key={place.id}>
-                    <h1>{place.name}</h1>
-                    <p>Endereço</p>
-                    <p>{place.address.street}, {place.address.number}{place.address.complement && `/${place.address.complement}`}</p>
-                    <p>{place.address.city}/{place.address.state}</p>
-                    <h3
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => router.push(`/places/${place.id}`)}
-                    >
-                        Ver detalhes
-                    </h3>
-                </div>
-            ))}
-        </div>
+        <ListTemplate
+            buttonName="+ Adicionar Local"
+            handleButtonPath="/places/create"
+            data={data}
+            sectionName="Locais"
+            values={values}
+        />
     )
 }
+
+
+PlacesPage.template = AdminTemplate
 
 export default PlacesPage;
 

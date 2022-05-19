@@ -1,12 +1,13 @@
-import { combineReducers  } from "redux";
+import { combineReducers } from '@reduxjs/toolkit'
 import { main, loggedUser, companyData } from './main';
-import { reducer as reduxFormReducer } from 'redux-form';
+import { token, user } from './auth';
 
 const rootReducer = combineReducers({
     main: main,
     loggedUser: loggedUser,
     companyData: companyData,
-    form: reduxFormReducer
+    auth: token.reducer,
+    user: user.reducer,
 })
 
 export default rootReducer;

@@ -1,4 +1,12 @@
+import { Router } from 'next/router';
+import { useLogin } from '../../../src/features/sign-in/hooks/useLogin';
 import * as t from '../types';
+import nookies from 'nookies'
+import useForceLogout from '../../../src/features/sign-in/hooks/useForceLogout';
+import { useLoginTimeout } from '../../../src/features/sign-in/hooks/useLoginTimeout';
+
+const { login } = useLogin();
+
 
 const main = (state = {
     name: "guest"
@@ -78,9 +86,34 @@ const placeReducer = (state = {
     }
 }
 
+const initialAuth = {
+    id: null,
+    name: null,
+    email: null,
+    token: null,
+    session_duration_in_seconds: null,
+    isAuthenticated: false
+}
+
+const authReducer = (state = initialAuth, action: any) => {
+    switch(action.type) {
+        case t.LOGIN:
+            return {
+                ...action.payload
+            };
+        case t.LOGOUT:
+            return {
+                ...initialAuth,
+            };
+        default:
+            return { ... state }
+    }
+};
+
 export {
     main,
     loggedUser,
     companyData,
     placeReducer,
+    authReducer,
 };

@@ -1,13 +1,11 @@
-import axios from 'axios';
-import { apiURL } from '../../../common/utils';
+import axios from "axios"
+import { apiURL } from "../../../common/utils"
 
-export const useLogin = () => {
-    async function login(values: {
-        username: string;
-        password: string;
-    }) {
+
+export const useGetUserById = () => {
+    async function getUser(id: string) {
         try {
-            const res = await axios.post(`${apiURL}/auth/login`, values,
+            const res = await axios.get(`${apiURL}/users/${id}`,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,8 +21,7 @@ export const useLogin = () => {
             }
         }
     }
-
     return {
-        login,
+        getUser,
     }
 }

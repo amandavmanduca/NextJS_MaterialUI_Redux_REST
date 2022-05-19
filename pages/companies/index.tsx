@@ -1,48 +1,45 @@
-import { ThemeProvider } from "@emotion/react"
-import { Box, Container, createTheme, Typography } from "@mui/material"
 import { useEffect } from "react";
-import { searchCep } from "../../src/common/hooks/useSearchCep";
+import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import ListTemplate from "../../src/common/templates/ListTemplate";
 import { useListCompanies } from "../../src/features/companies/hooks/useListCompanies";
 
-
-const theme = createTheme();
-
-export default function Companies() {
+const Companies = (): React.ReactNode => {
     const { data, listCompanies } = useListCompanies();
 
     useEffect(() => {
         listCompanies()
     }, [])
+
+    const values = data?.map((company: any) => ([
+        {
+            label: 'id',
+            value: company.id,
+        },
+        {
+            label: 'Nome',
+            value: company.name,
+        },
+        {
+            label: 'CNPJ',
+            value: company.cnpj,
+        },
+        {
+            label: 'Descrição',
+            value: company.description,
+        },
+    ]))
     
-    return(
-        <ThemeProvider theme={theme}>
-            <Container component="main">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-                >
-                    <Typography component="h1" variant="h5">
-                        Empresas
-                    </Typography>
-                    {data?.map((company: any) => (
-                        <Box key={company.id}>
-                            <Typography component="p">
-                                {company.name}
-                            </Typography>
-                            <Typography component="p">
-                                {company.cnpj}
-                            </Typography>
-                            <Typography component="p">
-                                {company.description}
-                            </Typography>
-                        </Box>
-                    ))}
-                </Box>
-            </Container>
-        </ThemeProvider>
+    return (
+        <ListTemplate
+            buttonName="+ Adicionar Empresa"
+            handleButtonPath="/companies/create"
+            data={data}
+            sectionName="Empresas"
+            values={values}
+        />
     )
 }
+
+Companies.template = AdminTemplate
+
+export default Companies

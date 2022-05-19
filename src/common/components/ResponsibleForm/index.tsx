@@ -125,7 +125,7 @@ export const ResponsibleForm = ({
                 handleChange={handleChange}
                 handleBlur={handleBlur}
             />
-            <FormGroup style={{ padding: '20px' }}>
+            <FormGroup>
                 <FormControlLabel
                     control={
                         <Checkbox

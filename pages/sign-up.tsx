@@ -3,32 +3,19 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useCreateUser } from '../src/features/sign-up/hooks/useCreateUser';
 import { Alert, AlertColor, Snackbar } from '@mui/material';
+import { useRouter } from 'next/router';
+import { fetchToken } from '../store/ducks/reducers/auth';
+import { useDispatch } from 'react-redux';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-const theme = createTheme();
 
 export default function SignUp() {
   const { create } = useCreateUser()
@@ -40,10 +27,11 @@ export default function SignUp() {
       severity: "success",
       message: '',
   })
+  const dispatch = useDispatch()
+  const router = useRouter()
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    console.log(event.currentTarget)
     const data = await create({
         name: String(formData.get('name')),
         email: String(formData.get('email')),
@@ -54,7 +42,8 @@ export default function SignUp() {
             severity: 'success',
             message: `Usuário criado com sucesso`
         })
-        
+        await dispatch(fetchToken({ username: data.email, password: data.password }));
+        router.push('/companies')
     } else {
         setModal({
             severity: 'warning',
@@ -65,7 +54,6 @@ export default function SignUp() {
 };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -134,13 +122,11 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
         <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
             <Alert onClose={() => setOpen(false)} severity={modal.severity} sx={{ width: '100%' }}>
                 {modal.message}
             </Alert>
         </Snackbar>
       </Container>
-    </ThemeProvider>
   );
 }
