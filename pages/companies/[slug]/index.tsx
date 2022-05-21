@@ -1,17 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import FullPlaceForm from "../../../src/common/components/FullPlaceForm";
+import { useEffect, useState } from "react";
+import FullCompanyForm from "../../../src/common/components/FullCompanyForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";
-import { useGetPlaceById } from "../../../src/features/places/hooks/useGetPlaceById";
-import { useUpdatePlace } from "../../../src/features/places/hooks/useUpdatePlace";
+import { useGetCompanyById } from "../../../src/features/companies/hooks/useGetCompanyById";
+import { useUpdateCompany } from "../../../src/features/companies/hooks/useUpdateCompany";
 
-const UpdatePlace = ({ slug }: any) => {
-    const { getPlace, data } = useGetPlaceById()
-    const { update } = useUpdatePlace()
+
+const UpdateCompany = ({ slug }: any) => {
+    const { getCompany, data } = useGetCompanyById()
+    const { update } = useUpdateCompany()
     const [initialValues, setInitialValues] = useState<any>(null)
 
     useEffect(() => {
         if (slug) {
-            getPlace(slug)
+            getCompany(slug)
         }
     }, [])
 
@@ -23,7 +24,7 @@ const UpdatePlace = ({ slug }: any) => {
 
     return (
         initialValues &&
-        <FullPlaceForm
+        <FullCompanyForm
             initialValues={initialValues}
             onSubmit={async (values: any) => {
             const { responsibles, ...rest } = values
@@ -44,10 +45,10 @@ const UpdatePlace = ({ slug }: any) => {
     )
 }
 
-UpdatePlace.template = AdminTemplate
+UpdateCompany.template = AdminTemplate
 
-export default UpdatePlace;
+export default UpdateCompany;
 
-UpdatePlace.getInitialProps = ({ query: { slug } }: any) => {
+UpdateCompany.getInitialProps = ({ query: { slug } }: any) => {
     return { slug };
 };

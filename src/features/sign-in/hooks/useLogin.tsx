@@ -19,7 +19,6 @@ export const useLogin = () => {
             console.log(error)
             if (error.response) {
                 console.log(error.response.data)
-                return error.response.data
             }
         }
     }

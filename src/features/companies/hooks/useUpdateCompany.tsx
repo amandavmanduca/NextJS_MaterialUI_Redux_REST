@@ -3,24 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSnackBarMessage } from '../../../../store/ducks/actions/main';
 import { apiURL } from '../../../common/utils';
 
-export const useCreateCompany = () => {
+export const useUpdateCompany = () => {
     //@ts-ignore
     const userToken = useSelector(data => data?.auth.data.token)
     const dispatch = useDispatch()
-    async function create(values: any) {
+    async function update(id: string, values: any) {
         try {
-            const res = await axios.post(`${apiURL}/companies`, values,
+            const res = await axios.patch(`${apiURL}/companies/${id}`, values,
             {
                 headers: {
                     Authorization: `Bearer ${userToken}`
                 }
             })
-            const company = await res.data
-            dispatch(setSnackBarMessage("Empresa criada com sucesso"));
-            return company
+            const response = await res.data
+            dispatch(setSnackBarMessage("Empresa atualizada com sucesso"));
+            return response
         } catch (error: any) {
             console.log(error)
-            dispatch(setSnackBarMessage("Erro ao criar empresa"));
+            dispatch(setSnackBarMessage("Erro ao atualizar empresa"));
             if (error.response) {
                 console.log(error.response.data)
             }
@@ -28,6 +28,6 @@ export const useCreateCompany = () => {
     }
 
     return {
-        create,
+        update,
     }
 }

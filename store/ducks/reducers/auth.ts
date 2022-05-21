@@ -1,5 +1,3 @@
-import { combineReducers } from "@reduxjs/toolkit";
-import { useEffect } from "react";
 import { useGetUserById } from "../../../src/features/sign-in/hooks/getUserById";
 import { useLogin } from "../../../src/features/sign-in/hooks/useLogin";
 import createAsyncSlice from "../helpers/createAsyncSlice";
@@ -48,7 +46,18 @@ const token = createAsyncSlice({
                 state.data = state.data,
                 state.error = 'Erro ao realizar login'
             }
-        }
+        },
+        fetchLogout: {
+            reducer(state: any) {
+                state.loading = false;
+                state.data = {
+                    token: null,
+                    session_duration_in_seconds: null,
+                    user: null
+                };
+                state.error = null;
+            },
+        },
     },
     fetchConfig: (user: { username: string, password: string }) => login({ username: user.username, password: user.password })
 })

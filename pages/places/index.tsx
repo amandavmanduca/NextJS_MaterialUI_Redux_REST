@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
 import ListTemplate from "../../src/common/templates/ListTemplate";
+import { useDeletePlace } from "../../src/features/places/hooks/useDeletePlace";
 import { useGetPlaces } from "../../src/features/places/hooks/useGetPlaces";
 
 const PlacesPage = () => {
     const { data, getPlaces } = useGetPlaces()
+    const { deleteOne } = useDeletePlace()
 
     useEffect(() => {
         getPlaces()
@@ -21,7 +23,7 @@ const PlacesPage = () => {
         },
         {
             label: 'Endereço',
-            value: item.address.street + ', ' + item.address.number + ' ' + item.address.complement && `/${item.address.complement}`,
+            value: `${item.address.street} nº${item.address.number}`,
         },
         {
             label: 'Cidade',
@@ -33,13 +35,14 @@ const PlacesPage = () => {
         <ListTemplate
             buttonName="+ Adicionar Local"
             handleButtonPath="/places/create"
-            data={data}
+            handleEditPath="/places/"
             sectionName="Locais"
             values={values}
+            handleDeleteOne={deleteOne}
+            refetch={getPlaces}
         />
     )
 }
-
 
 PlacesPage.template = AdminTemplate
 

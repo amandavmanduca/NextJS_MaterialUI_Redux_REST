@@ -67,3 +67,8 @@ export const logoutHook = (values?: any) => ({
     type: t.LOGOUT,
     payload: values,
 })
+
+export const setSnackBarMessage = (message?: string) => ({
+    type: t.SNACKBAR,
+    payload: message,
+})

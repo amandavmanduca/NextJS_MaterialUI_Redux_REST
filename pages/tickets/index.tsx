@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
 import ListTemplate from "../../src/common/templates/ListTemplate";
+import { useDeleteTicket } from "../../src/features/tickets/hooks/useDeleteTicket";
 import { useGetTickets } from "../../src/features/tickets/hooks/useGetTickets";
 
 const itemsPage = () => {
     const { data, getTickets } = useGetTickets()
+    const { deleteOne } = useDeleteTicket()
 
     useEffect(() => {
         getTickets()
     }, [])
+
+    const ticketsLabel: string | any = {
+        PENDING: 'Pendente',
+        IN_PROGRESS: 'Em Andamento',
+        FINISHED: 'Finalizado',
+    }
 
     const values = data?.map((item: any) => ([
         {
@@ -17,7 +25,7 @@ const itemsPage = () => {
         },
         {
             label: 'Status',
-            value: item.status,
+            value: ticketsLabel[item.status],
         },
         {
             label: 'Título',
@@ -31,9 +39,11 @@ const itemsPage = () => {
 
     return (
         <ListTemplate
-            data={data}
             sectionName="Tickets"
+            handleEditPath="/tickets/"
             values={values}
+            handleDeleteOne={deleteOne}
+            refetch={getTickets}
         />
     )
 }

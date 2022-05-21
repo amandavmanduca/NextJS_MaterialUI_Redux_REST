@@ -1,22 +1,33 @@
 import { Box, Button, Container, Typography } from "@mui/material"
 import { useRouter } from "next/router"
-import { MouseEventHandler } from "react"
 import AdminTemplate from "../AdminTemplate"
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { useDispatch } from "react-redux";
 
 const ListTemplate = ({
-    data,
     sectionName,
     buttonName,
     handleButtonPath,
+    handleEditPath,
+    handleDeleteOne,
     values,
+    refetch,
 }: {
-    data: any[],
     sectionName: string,
     buttonName?: string,
     handleButtonPath?: string,
-    values: any
+    handleEditPath: string,
+    handleDeleteOne: (id: string) => Promise<void>,
+    values: any[],
+    refetch?: any,
 }) => {
     const router = useRouter()
+
+    const handleDelete = async (id: string) => {
+        await handleDeleteOne(id)
+        refetch()
+    }
     return (
         <Container component="main">
         <Box
@@ -39,33 +50,39 @@ const ListTemplate = ({
                     sx={{
                         marginTop: 8,
                         display: 'grid',
-                        gridTemplateColumns: ['1fr', '1fr 1fr', '1fr 1fr 1fr'],
-                        alignItems: 'center',
+                        gridTemplateColumns: ['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr'],
                         gap: '20px',
+                        width: '100%',
                     }}>
-                    {data?.map((item: any) => (
+                    {values?.map((items: any, index: number) => (
                         <Box
-                            key={item.id}
+                            key={index}
                             style={{
                                 borderRadius: '10px',
-                                display: 'grid',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                gap: '30px',
+                                width: '100%',
                                 backgroundColor: '#FAFAFA',
                                 padding: '20px 30px',
                                 boxShadow: '0px 0px 5px 0px rgba(0, 0, 0, 0.3)',
-                                gap: '15px',
                             }}>
-                            {values?.map((value: any, index: number) => value?.[0]?.value === item.id &&
-                                value?.map((items: any, newIndex: number) => items?.label !== 'id' && (
-                                    <Box key={value?.[0]?.label + newIndex} style={{ display: 'grid' }}>
+                            <Box style={{ display: 'grid', gap: '15px' }}>
+                                {items?.map((value: any, newIndex: number) => value?.label !== 'id' && (
+                                    <Box key={newIndex} style={{ display: 'grid' }}>
                                         <Typography component="p" fontSize="10px">
-                                            {items.label}
+                                            {value.label}
                                         </Typography>
                                         <Typography component="p" lineHeight="15px">
-                                            {items.value}
+                                            {value.value}
                                         </Typography>
                                     </Box>
-                                ))
-                            )}
+                                ))}
+                            </Box>
+                            <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+                                <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => handleDelete(items[0].value)} />
+                                <ModeEditIcon style={{ cursor: 'pointer' }} onClick={() => router.push(handleEditPath + items[0].value)} />
+                            </Box>
                         </Box>
                     ))}
                 </Box>

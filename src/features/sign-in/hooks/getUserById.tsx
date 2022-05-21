@@ -1,14 +1,17 @@
 import axios from "axios"
+import { useSelector } from "react-redux"
 import { apiURL } from "../../../common/utils"
 
 
 export const useGetUserById = () => {
     async function getUser(id: string) {
+        //@ts-ignore
+        const userToken = useSelector(data => data?.auth?.data?.token)
         try {
             const res = await axios.get(`${apiURL}/users/${id}`,
             {
                 headers: {
-                    'Content-Type': 'application/json'
+                    Authorization: `Bearer ${userToken}`
                 }
             })
             const user = await res.data

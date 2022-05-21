@@ -8,7 +8,7 @@ export const ADD_RESPONSIBLE = "ADD_RESPONSIBLE";
 
 export const REMOVE_RESPONSIBLE = "REMOVE_RESPONSIBLE";
 
-
+export const SNACKBAR = "SNACKBAR";
 
 export const CREATE_PLACE = "CREATE_PLACE"
 

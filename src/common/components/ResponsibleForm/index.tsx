@@ -130,7 +130,7 @@ export const ResponsibleForm = ({
                     control={
                         <Checkbox
                             checked={p.isPlaceMainResponsible}
-                            onChange={(value) => setFieldValue(`${arrayName}[${index}].isPlaceMainResponsible`, value.target.value === 'on' ? true : false)}
+                            onChange={() => setFieldValue(`${arrayName}[${index}].isPlaceMainResponsible`, !p.isPlaceMainResponsible)}
                         />
                     }
                     label="Responsável Principal"

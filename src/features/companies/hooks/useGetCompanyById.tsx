@@ -4,21 +4,21 @@ import { useSelector } from "react-redux"
 import { apiURL } from "../../../common/utils"
 
 
-export const useGetPlaceById = () => {
+export const useGetCompanyById = () => {
     const [data, setData] = useState<any>()
     //@ts-ignore
     const userToken = useSelector(data => data?.auth.data.token)
-    async function getPlace(id: string) {
+    async function getCompany(id: string) {
         try {
-            const res = await axios.get(`${apiURL}/places/${id}`,
+            const res = await axios.get(`${apiURL}/companies/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
                 }
             )
-            const place = await res.data
-            setData(place)
+            const company = await res.data
+            setData(company)
         } catch (error: any) {
             console.log(error)
             if (error.response) {
@@ -27,7 +27,7 @@ export const useGetPlaceById = () => {
         }
     }
     return {
-        getPlace,
+        getCompany,
         data,
     }
 }

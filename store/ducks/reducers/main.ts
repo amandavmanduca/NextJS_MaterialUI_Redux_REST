@@ -1,12 +1,4 @@
-import { Router } from 'next/router';
-import { useLogin } from '../../../src/features/sign-in/hooks/useLogin';
 import * as t from '../types';
-import nookies from 'nookies'
-import useForceLogout from '../../../src/features/sign-in/hooks/useForceLogout';
-import { useLoginTimeout } from '../../../src/features/sign-in/hooks/useLoginTimeout';
-
-const { login } = useLogin();
-
 
 const main = (state = {
     name: "guest"
@@ -16,6 +8,19 @@ const main = (state = {
             return { ... state, userInfo: {
                 name: action.payload
             }};
+        default:
+            return { ... state }
+    }
+};
+
+const snackbarMessages = (state = {
+    message: ''
+}, action: any) => {
+    switch(action.type) {
+        case t.SNACKBAR:
+            return {
+                message: action.payload
+            }
         default:
             return { ... state }
     }
@@ -116,4 +121,5 @@ export {
     companyData,
     placeReducer,
     authReducer,
+    snackbarMessages,
 };

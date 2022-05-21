@@ -10,6 +10,7 @@ const AdminTemplate = ({ children }: { children: React.ReactNode }) => {
                 height: '100%',
                 minHeight: '100vh',
                 gap: '20px',
+                justifyContent: 'flex-start',
             }}>
             <Menu />
             <div style={{ marginBottom: '50px' }}>

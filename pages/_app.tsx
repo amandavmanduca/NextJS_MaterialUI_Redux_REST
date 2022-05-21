@@ -6,8 +6,9 @@ import { store } from '../store/ducks/store';
 import { getCookie } from '../store/ducks/helpers/getCookie'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { autoLogin } from '../store/ducks/reducers/auth';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { SnackBarAlert } from '../src/common/components/SnackBarAlert';
+import AlertSection from '../src/common/components/AlertSection';
 
 const theme = createTheme({
   palette: {
@@ -33,23 +34,29 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
   useEffect(() => {
     if (router.pathname !== '/sign-in' && router.pathname !== '/sign-up') {
       if (!token) {
-        router.push('/')
+        router.push('/sign-in')
       }
     }
   }, [token])
-  useEffect(() => {
-    if (foundUser) {
-      autoLogin(foundUser)
-    }
-  }, [foundUser])
+  // useEffect(() => {
+  //   if (router.pathname == '/sign-in' || router.pathname === '/sign-up') {
+  //     if (foundUser) {
+  //       console.log('foundUser ', foundUser)
+  //       autoLogin(foundUser)
+  //     }
+  //   }
+  // }, [foundUser])
   //@ts-ignore
   const Template = Component?.template || EmptyTemplate
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
           <Template>
-            <Component {...pageProps} />
+            <AlertSection>
+              <Component {...pageProps} />
+            </AlertSection>
           </Template>
         </SessionProvider>
     </ThemeProvider>
