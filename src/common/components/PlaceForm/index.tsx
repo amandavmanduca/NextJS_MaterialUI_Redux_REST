@@ -2,6 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Formik, getIn } from "formik"
 import { useEffect, useState } from "react";
 import { useListCompanies } from "../../../features/companies/hooks/useListCompanies";
+import { useGetUsers } from "../../../features/places/hooks/useGetUsers";
 import { searchCep } from "../../hooks/useSearchCep";
 import { FormTextField } from "../TextField"
 
@@ -31,17 +32,24 @@ export const PlaceForm = ({
             values.address.neighborhood = ''
         }
     }
+
     useEffect(() => {
         if(values?.address?.cep) {
             getAddress(values.address.cep)
         }
     }, [values?.address?.cep])
+
     const { data: companiesData, listCompanies } = useListCompanies()
+    const { data: usersData, getUsers } = useGetUsers()
 
     useEffect(() => {
         listCompanies()
+        getUsers()
     }, [])
+
     const [companiesArray, setCompaniesArray] = useState<any[]>([]);
+    const [usersArray, setUsersArray] = useState<any[]>([]);
+
     useEffect(() => {
         if(companiesData) {
             const array: any[] = companiesData?.map((c: any) => ({
@@ -50,7 +58,15 @@ export const PlaceForm = ({
             }))
             setCompaniesArray(array)
         }
-    }, [companiesData])
+        if(usersData) {
+            const array: any[] = usersData?.map((c: any) => ({
+                value: c.id,
+                label: c.name
+            }))
+            setUsersArray(array)
+        }
+    }, [companiesData, usersData])
+
     return (
         <>
             <FormTextField
@@ -77,6 +93,23 @@ export const PlaceForm = ({
                     ))}
                 </Select>
             </FormControl>
+            {values?.id !== undefined && (
+                <FormControl style={{ width: '100%' }}>
+                    <InputLabel id="demo-simple-select-label">Usuário Responsável pela alteração</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        variant="outlined"
+                        value={values?.attendant_userId}
+                        label="Usuário - Atendente Ticket"
+                        onChange={(value: any) => setFieldValue(`attendant_userId`, value.target.value)}
+                    >
+                        {usersArray?.map(c => (
+                            <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
             <FormTextField
                 label="CEP"
                 name={`address.cep`}

@@ -30,7 +30,7 @@ function CreatePlace() {
         onSubmit={async (values: any) => {
           const { responsibles, ...rest } = values
           const formatedResponsibles = responsibles?.map((r: any) => {
-            const { id, ...rest } = r
+            const { id, attendant_userId, ...rest } = r
             return { ...rest }
           })
           await create({

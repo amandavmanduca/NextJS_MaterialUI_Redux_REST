@@ -7,6 +7,7 @@ const { login } = useLogin()
 const { getUser } = useGetUserById()
 
 const foundToken = getCookie('token')
+const foundUserId = getCookie('user')
 
 const token = createAsyncSlice({
     name: 'login',
@@ -65,6 +66,11 @@ const token = createAsyncSlice({
 
 const user = createAsyncSlice({
     name: 'user',
+    initialState: {
+        data: {
+            id: foundUserId,
+        },
+    },
     fetchConfig: (id: string) => getUser(id)
 })
 

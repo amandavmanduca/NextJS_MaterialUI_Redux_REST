@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import FullPlaceForm from "../../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";
 import { useGetPlaceById } from "../../../src/features/places/hooks/useGetPlaceById";
@@ -10,6 +11,8 @@ const UpdatePlace = ({ slug }: any) => {
     const router = useRouter()
     const { update } = useUpdatePlace()
     const [initialValues, setInitialValues] = useState<any>(null)
+
+    const loggedUserId: string = useSelector((data: any) => data?.user?.data?.id)
 
     useEffect(() => {
         if (slug) {
@@ -39,6 +42,7 @@ const UpdatePlace = ({ slug }: any) => {
             })
             await update(slug, {
                 ...rest,
+                creator_userId: loggedUserId,
                 responsibles: formatedResponsibles
             }).then(() => router.push('/places'))
         }}
