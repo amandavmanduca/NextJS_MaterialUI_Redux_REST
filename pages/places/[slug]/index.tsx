@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import FullPlaceForm from "../../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";
@@ -6,6 +7,7 @@ import { useUpdatePlace } from "../../../src/features/places/hooks/useUpdatePlac
 
 const UpdatePlace = ({ slug }: any) => {
     const { getPlace, data } = useGetPlaceById()
+    const router = useRouter()
     const { update } = useUpdatePlace()
     const [initialValues, setInitialValues] = useState<any>(null)
 
@@ -38,7 +40,7 @@ const UpdatePlace = ({ slug }: any) => {
             await update(slug, {
                 ...rest,
                 responsibles: formatedResponsibles
-            })
+            }).then(() => router.push('/places'))
         }}
       />
     )

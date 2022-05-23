@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FullCompanyForm from "../../../src/common/components/FullCompanyForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";
@@ -8,6 +9,7 @@ import { useUpdateCompany } from "../../../src/features/companies/hooks/useUpdat
 const UpdateCompany = ({ slug }: any) => {
     const { getCompany, data } = useGetCompanyById()
     const { update } = useUpdateCompany()
+    const router = useRouter()
     const [initialValues, setInitialValues] = useState<any>(null)
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const UpdateCompany = ({ slug }: any) => {
             await update(slug, {
                 ...rest,
                 responsibles: formatedResponsibles
-            })
+            }).then(() => router.push('/companies'))
         }}
       />
     )
