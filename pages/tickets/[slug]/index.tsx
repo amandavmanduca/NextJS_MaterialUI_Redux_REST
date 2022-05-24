@@ -60,28 +60,28 @@ const UpdateTicket = ({ slug }: any) => {
             <p>{data?.attendant_user?.name}</p>
             <p>{data?.creator_user?.name}</p>
             <FormControl style={{ width: '100%' }}>
-                    <InputLabel id="demo-simple-select-label">Atualizar Status</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        variant="outlined"
-                        value={status}
-                        label="Atualizar Status"
-                        onChange={(value: any) => setStatus(value.target.value)}
-                    >
-                        {statusOptions?.map(c => (
-                            <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <Button
-                    onClick={() => handleStatus()}
-                    type="submit"
-                    color="primary"
-                    variant="contained"
+                <InputLabel id="demo-simple-select-label">Atualizar Status</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    variant="outlined"
+                    value={status}
+                    label="Atualizar Status"
+                    onChange={(value: any) => setStatus(value.target.value)}
                 >
-                    Salvar
-                </Button>
+                    {statusOptions?.map(c => (
+                        <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            <Button
+                onClick={() => handleStatus()}
+                type="submit"
+                color="primary"
+                variant="contained"
+            >
+                Salvar
+            </Button>
         </div>
     )
 }

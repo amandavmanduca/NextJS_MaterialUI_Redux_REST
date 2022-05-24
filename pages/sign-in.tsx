@@ -9,25 +9,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchToken } from '../store/ducks/reducers/auth';
 
-function SignIn(props: any) {
-    const [open, setOpen] = React.useState(false);
-    const [modal, setModal] = React.useState<{
-        severity: AlertColor;
-        message: string;
-    }>({
-        severity: "success",
-        message: '',
-    })
-
+function SignIn() {
     const router = useRouter()
     const dispatch = useDispatch()
     //@ts-ignore
-    const auth = useSelector(data => data?.auth);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -38,20 +27,8 @@ function SignIn(props: any) {
         };
         if (data) {
           await dispatch(fetchToken({ username: data.username, password: data.password }));
-          if(auth?.error) {
-            setModal({
-              severity: 'warning',
-              message: auth?.error,
-            })
-          } else {
-            setModal({
-                severity: 'info',
-                message: `Bem vindo(a),`
-            })
-            router.push('/companies')
-          }
+          router.push('/companies');
         }
-        setOpen(true);
     };
 
   return (
@@ -110,11 +87,6 @@ function SignIn(props: any) {
             </Grid>
           </Box>
         </Box>
-        <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-            <Alert onClose={() => setOpen(false)} severity={modal.severity} sx={{ width: '100%' }}>
-                {modal.message}
-            </Alert>
-        </Snackbar>
       </Container>
   );
 }

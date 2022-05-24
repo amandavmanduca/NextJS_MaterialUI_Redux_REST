@@ -58,6 +58,22 @@ const token = createAsyncSlice({
                 };
                 state.error = null;
             },
+            prepare() {
+                return {
+                    meta: {
+                        cookie: {
+                            key: 'token',
+                            token: null,
+                            session_duration_in_seconds: null,
+                        },
+                        user: {
+                            key: 'user',
+                            id: null,
+                            session_duration_in_seconds: null,
+                        },
+                    }
+                }
+            }
         },
     },
     fetchConfig: (user: { username: string, password: string }) => login({ username: user.username, password: user.password })
@@ -77,6 +93,8 @@ const user = createAsyncSlice({
 
 export const fetchToken = token.asyncAction;
 export const fetchUser = user.asyncAction;
+export const fetchLogout: any = token.actions.fetchLogout
+
 
 export const autoLogin = (id: string) => async (dispatch: any) => {
     if (id) {

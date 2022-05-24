@@ -71,13 +71,13 @@ export const PlaceForm = ({
         <>
             {values?.id !== undefined && (
                 <FormControl style={{ width: '100%' }}>
-                    <InputLabel id="demo-simple-select-label">Usuário Responsável pela alteração</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Usuário Responsável por atender alteração</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         variant="outlined"
                         value={values?.attendant_userId}
-                        label="Usuário - Atendente Ticket"
+                        label="Usuário Responsável por atender alteração"
                         onChange={(value: any) => setFieldValue(`attendant_userId`, value.target.value)}
                     >
                         {usersArray?.map(c => (

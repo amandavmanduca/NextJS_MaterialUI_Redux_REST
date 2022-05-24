@@ -19,39 +19,25 @@ import { useDispatch } from 'react-redux';
 
 export default function SignUp() {
   const { create } = useCreateUser()
-  const [open, setOpen] = React.useState(false);
-  const [modal, setModal] = React.useState<{
-    severity: AlertColor;
-    message: string;
-  }>({
-      severity: "success",
-      message: '',
-  })
+
   const dispatch = useDispatch()
   const router = useRouter()
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = await create({
+
+    await create({
         name: String(formData.get('name')),
         email: String(formData.get('email')),
         password: String(formData.get('password')),
-    });
-    if (data) {
-        setModal({
-            severity: 'success',
-            message: `Usuário criado com sucesso`
-        })
-        await dispatch(fetchToken({ username: data.email, password: data.password }));
+    }).then(async (data) => {
+      data.email && (
+        await dispatch(fetchToken({ username: data.email, password: String(formData.get('password')) })),
         router.push('/companies')
-    } else {
-        setModal({
-            severity: 'warning',
-            message: `Erro ao realizar cadastro`
-        })
-    }
-    setOpen(true);
-};
+      )
+    });
+  };
 
   return (
       <Container component="main" maxWidth="xs">
@@ -122,11 +108,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-            <Alert onClose={() => setOpen(false)} severity={modal.severity} sx={{ width: '100%' }}>
-                {modal.message}
-            </Alert>
-        </Snackbar>
       </Container>
   );
 }

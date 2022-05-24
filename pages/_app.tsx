@@ -28,8 +28,8 @@ const theme = createTheme({
 });
 
 function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
+
   const token = getCookie('token')
-  const foundUser = getCookie('user')
   const router = useRouter()
   useEffect(() => {
     if (router.pathname !== '/sign-in' && router.pathname !== '/sign-up') {
@@ -38,14 +38,17 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
       }
     }
   }, [token])
-  // useEffect(() => {
-  //   if (router.pathname == '/sign-in' || router.pathname === '/sign-up') {
-  //     if (foundUser) {
-  //       console.log('foundUser ', foundUser)
-  //       autoLogin(foundUser)
-  //     }
-  //   }
-  // }, [foundUser])
+
+  useEffect(() => {
+    if (router.pathname === '/') {
+      if (!token) {
+        router.push('/sign-in')
+      } else {
+        router.push('/companies')
+      }
+    }
+  }, [])
+
   //@ts-ignore
   const Template = Component?.template || EmptyTemplate
 
@@ -65,5 +68,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
 }
 
 const EmptyTemplate = ({ children }: { children: React.ReactNode}) => <>{children}</>
+
+
 
 export default MyApp;
