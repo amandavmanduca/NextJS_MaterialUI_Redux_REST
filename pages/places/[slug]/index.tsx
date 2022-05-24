@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import FullPlaceForm from "../../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";

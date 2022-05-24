@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
 import ListTemplate from "../../src/common/templates/ListTemplate";
+import { ticketsLabel } from "../../src/common/utils";
 import { useDeleteTicket } from "../../src/features/tickets/hooks/useDeleteTicket";
 import { useGetTickets } from "../../src/features/tickets/hooks/useGetTickets";
 
@@ -11,12 +12,6 @@ const itemsPage = () => {
     useEffect(() => {
         getTickets()
     }, [])
-
-    const ticketsLabel: string | any = {
-        PENDING: 'Pendente',
-        IN_PROGRESS: 'Em Andamento',
-        FINISHED: 'Finalizado',
-    }
 
     const values = data?.map((item: any) => ([
         {
