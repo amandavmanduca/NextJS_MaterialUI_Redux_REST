@@ -4,11 +4,11 @@ import { SessionProvider } from 'next-auth/react'
 import { Provider } from 'react-redux'
 import { store } from '../store/ducks/store';
 import { getCookie } from '../store/ducks/helpers/getCookie'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AlertSection from '../src/common/components/AlertSection';
-import { handleLogout } from '../store/ducks/helpers/handleLogoutTime';
+import { handleAutoLogout } from '../store/ducks/helpers/handleLogoutTime';
 
 const theme = createTheme({
   palette: {
@@ -49,8 +49,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
     }
   }, [])
 
+  const [handlingAutoLogout, setHandlingAutoLogout] = useState<boolean>(false);
+
   useEffect(() => {
-    handleLogout()
+    if(!handlingAutoLogout) {
+      setHandlingAutoLogout(true)
+      handleAutoLogout()
+      setHandlingAutoLogout(false)
+    }
   }, [])
 
   //@ts-ignore

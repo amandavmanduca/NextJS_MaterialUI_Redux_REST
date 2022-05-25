@@ -6,15 +6,17 @@ export const cookies = (store: any) => (next: any) => (action: any) => {
     const { meta } = action
     if (meta) {
         if (meta.cookie) {
-            meta.cookie.token !== null ?
-            setCookie(null, meta.cookie.key, meta.cookie.token, {
-                maxAge: meta.cookie.session_duration_in_seconds,
-                path: '/',
-            })
-            :
-            destroyCookie(null, meta.cookie.key)
             if (meta.cookie.session_duration_in_seconds) {
                 setLogoutTime(meta.cookie.session_duration_in_seconds)
+            }
+            if (meta.cookie.token !== null) {
+                setCookie(null, meta.cookie.key, meta.cookie.token, {
+                    maxAge: meta.cookie.session_duration_in_seconds,
+                    path: '/',
+                })
+            } else {
+                destroyCookie(null, meta.cookie.key)
+                destroyCookie(null, 'logout_time')
             }
         }
         if (meta.user) {

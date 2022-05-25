@@ -1,10 +1,9 @@
-import { destroyCookie, setCookie } from "nookies";
-import { useDispatch } from "react-redux";
-import { setSnackBarMessage } from "../actions/main";
+import { setCookie } from "nookies";
 import { getCookie } from "./getCookie";
 
 
 export function setLogoutTime(duration: string) {
+    console.log('duration ', duration)
     const durationInMiliSeconds = Number(duration) * 1000;
     const now = new Date().getTime();
     const logoutTime = now + durationInMiliSeconds
@@ -12,17 +11,18 @@ export function setLogoutTime(duration: string) {
         maxAge: duration,
         path: '/',
     })
-    handleLogout()
+    handleAutoLogout()
 }
 
-export function handleLogout() {
+export function handleAutoLogout() {
     const now = new Date().getTime();
     const logoutTime = Number(getCookie('logout_time'))
     if (logoutTime) {
         const timeToLogout = logoutTime - now
         setTimeout(() => {
-            destroyCookie(null, 'logout_time');
-            window.location.replace('/sign-in')
+            if (!getCookie('logout_time')) {
+                window.location.replace('/sign-in')
+            }
         }, timeToLogout);
     }
 }
