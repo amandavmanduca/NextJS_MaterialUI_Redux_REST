@@ -42,93 +42,77 @@ export const ResponsibleForm = ({
         getAddress(p?.address?.cep)
     }, [p?.address?.cep])
 
+    const fieldsData = [
+        {
+            label: 'Nome',
+            name: `${arrayName}[${index}].name`,
+            value: p.name,
+            info: getIn(touched, `${arrayName}[${index}].name`)
+        },
+        {
+            label: 'Telefone',
+            name: `${arrayName}[${index}].telephone`,
+            value: p.telephone,
+            info: getIn(touched, `${arrayName}[${index}].telephone`)
+        },
+        {
+            label: 'CEP',
+            name: `${arrayName}[${index}].address.cep`,
+            value: p.address.cep,
+            info: getIn(errors, `${arrayName}[${index}].address.cep`) || handleCepValidation
+        },
+        {
+            label: 'Estado',
+            name: `${arrayName}[${index}].address.state`,
+            value: p.address.state,
+            info: getIn(errors, `${arrayName}[${index}].address.state`)
+        },
+        {
+            label: 'Cidade',
+            name: `${arrayName}[${index}].address.city`,
+            value: p.address.city,
+            info: getIn(errors, `${arrayName}[${index}].address.city`)
+        },
+        {
+            label: 'Bairro',
+            name: `${arrayName}[${index}].address.neighborhood`,
+            value: p.address.neighborhood,
+            info: getIn(errors, `${arrayName}[${index}].address.neighborhood`)
+        },
+        {
+            label: 'Logradouro',
+            name: `${arrayName}[${index}].address.street`,
+            value: p.address.street,
+            info: getIn(errors, `${arrayName}[${index}].address.street`)
+        },
+        {
+            label: 'Nº',
+            name: `${arrayName}[${index}].address.number`,
+            value: p.address.number,
+            info: getIn(touched, `${arrayName}[${index}].address.number`)
+        },
+        {
+            label: 'Complemento',
+            name: `${arrayName}[${index}].address.complement`,
+            value: p.address.complement,
+            info: getIn(touched, `${arrayName}[${index}].address.complement`)
+        },
+    ]
+
     return (
         <>
-            <FormTextField
-                label="Nome"
-                name={`${arrayName}[${index}].name`}
-                value={p.name}
-                touched={getIn(touched, `${arrayName}[${index}].name`)}
-                error={getIn(errors, `${arrayName}[${index}].name`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Telefone"
-                name={`${arrayName}[${index}].telephone`}
-                value={p.telephone}
-                touched={getIn(touched, `${arrayName}[${index}].telephone`)}
-                error={getIn(errors, `${arrayName}[${index}].telephone`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="CEP"
-                name={`${arrayName}[${index}].address.cep`}
-                value={p.address.cep}
-                touched={getIn(touched, `${arrayName}[${index}].address.cep`)}
-                error={getIn(errors, `${arrayName}[${index}].address.cep`) || handleCepValidation}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Estado"
-                name={`${arrayName}[${index}].address.state`}
-                value={p.address.state}
-                touched={getIn(touched, `${arrayName}[${index}].address.state`)}
-                error={getIn(errors, `${arrayName}[${index}].address.state`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Cidade"
-                name={`${arrayName}[${index}].address.city`}
-                value={p.address.city}
-                touched={getIn(touched, `${arrayName}[${index}].address.city`)}
-                error={getIn(errors, `${arrayName}[${index}].address.city`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Bairro"
-                name={`${arrayName}[${index}].address.neighborhood`}
-                value={p.address.neighborhood}
-                touched={getIn(touched, `${arrayName}[${index}].address.neighborhood`)}
-                error={getIn(errors, `${arrayName}[${index}].address.neighborhood`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Logradouro"
-                name={`${arrayName}[${index}].address.street`}
-                value={p.address.street}
-                touched={getIn(touched, `${arrayName}[${index}].address.street`)}
-                error={getIn(errors, `${arrayName}[${index}].address.street`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Nº"
-                name={`${arrayName}[${index}].address.number`}
-                value={p.address.number}
-                touched={getIn(touched, `${arrayName}[${index}].address.number`)}
-                error={getIn(errors, `${arrayName}[${index}].address.number`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Complemento"
-                name={`${arrayName}[${index}].address.complement`}
-                value={p.address.complement}
-                touched={getIn(touched, `${arrayName}[${index}].address.complement`)}
-                error={getIn(errors, `${arrayName}[${index}].address.complement`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
+            {fieldsData?.map(field => (
+                <FormTextField
+                    id={field.name}
+                    label={field.label}
+                    name={field.name}
+                    value={field.value}
+                    touched={field.info}
+                    error={field.info}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                />
+            ))}
             <FormGroup>
                 <FormControlLabel
                     control={
