@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material"
 import { getIn } from "formik"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { searchCep } from "../../hooks/useSearchCep"
 import { FormTextField } from "../TextField"
 
@@ -15,22 +15,26 @@ export const ResponsibleForm = ({
     handleBlur,
     setFieldValue,
 }: any) => {
-
+    const [handleCepValidation, setHandleCepValidation] = useState<string | null>(null)
     async function getAddress(cep: string) {
         let address = null
         if (cep?.length === 8) {
             address = await searchCep(cep);
         }
         if (address) {
-            p.address.state = address.uf
-            p.address.city = address.localidade
-            p.address.street = address.logradouro
-            p.address.neighborhood = address.bairro
-        } else {
-            p.address.state = ''
-            p.address.city = ''
-            p.address.street = ''
-            p.address.neighborhood = ''
+            if (address.erro !== 'true') {
+                setHandleCepValidation(null)
+                p.address.state = address.uf
+                p.address.city = address.localidade
+                p.address.street = address.logradouro
+                p.address.neighborhood = address.bairro
+            } else {
+                setHandleCepValidation('CEP inválido')
+                p.address.state = ''
+                p.address.city = ''
+                p.address.street = ''
+                p.address.neighborhood = ''
+            }
         }
     }
 
@@ -63,7 +67,7 @@ export const ResponsibleForm = ({
                 name={`${arrayName}[${index}].address.cep`}
                 value={p.address.cep}
                 touched={getIn(touched, `${arrayName}[${index}].address.cep`)}
-                error={getIn(errors, `${arrayName}[${index}].address.cep`)}
+                error={getIn(errors, `${arrayName}[${index}].address.cep`) || handleCepValidation}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
             />

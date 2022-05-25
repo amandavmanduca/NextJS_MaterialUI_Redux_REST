@@ -15,21 +15,26 @@ export const PlaceForm = ({
     values,
     setFieldValue
 }: any) => {
+    const [handleCepValidation, setHandleCepValidation] = useState<string | null>(null)
     async function getAddress(cep: string) {
         let address = null
         if (cep.length === 8) {
             address = await searchCep(cep);
         }
         if (address) {
-            values.address.state = address.uf
-            values.address.city = address.localidade
-            values.address.street = address.logradouro
-            values.address.neighborhood = address.bairro
-        } else {
-            values.address.state = ''
-            values.address.city = ''
-            values.address.street = ''
-            values.address.neighborhood = ''
+            if (address.erro !== 'true') {
+                setHandleCepValidation(null)
+                values.address.state = address.uf
+                values.address.city = address.localidade
+                values.address.street = address.logradouro
+                values.address.neighborhood = address.bairro
+            } else {
+                setHandleCepValidation('CEP inválido')
+                values.address.state = ''
+                values.address.city = ''
+                values.address.street = ''
+                values.address.neighborhood = ''
+            }
         }
     }
 
@@ -119,7 +124,7 @@ export const PlaceForm = ({
                 name={`address.cep`}
                 value={values?.address?.cep}
                 touched={getIn(touched, `address.cep`)}
-                error={getIn(errors, `address.cep`)}
+                error={getIn(errors, `address.cep`) || handleCepValidation}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
             />

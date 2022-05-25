@@ -1,7 +1,6 @@
 import React from "react";
 import { Divider, Button } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import { FormFieldArray } from "../FieldArray";
 import { CompanyForm } from "../CompanyForm";
 import { baseSchema } from "./companyFormValidation";
