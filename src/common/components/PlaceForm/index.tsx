@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
 import { Formik, getIn } from "formik"
 import { useEffect, useState } from "react";
 import { useListCompanies } from "../../../features/companies/hooks/useListCompanies";
@@ -71,19 +71,21 @@ export const PlaceForm = ({
         <>
             {values?.id !== undefined && (
                 <FormControl style={{ width: '100%' }}>
-                    <InputLabel id="demo-simple-select-label">Usuário Responsável por atender alteração</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Usuário Responsável por atender alteração</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
+                        labelId="demo-simple-select-helper-label"
                         id="demo-simple-select"
                         variant="outlined"
                         value={values?.attendant_userId}
                         label="Usuário Responsável por atender alteração"
                         onChange={(value: any) => setFieldValue(`attendant_userId`, value.target.value)}
+                        error={getIn(errors, "attendant_userId")}
                     >
                         {usersArray?.map(c => (
                             <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText style={{ color: '#d32f2f' }}>{getIn(errors, "attendant_userId")}</FormHelperText>
                 </FormControl>
             )}
             <FormTextField
@@ -96,19 +98,21 @@ export const PlaceForm = ({
                 handleBlur={handleBlur}
             />
             <FormControl style={{ width: '100%' }}>
-                <InputLabel id="demo-simple-select-label">Empresa</InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">Empresa</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
+                    labelId="demo-simple-select-helper-label"
                     id="demo-simple-select"
                     variant="outlined"
                     value={values?.company?.id}
                     label="Empresa"
                     onChange={(value: any) => setFieldValue(`company.id`, value.target.value)}
+                    error={getIn(errors, "company.id")}
                 >
                     {companiesArray?.map(c => (
                         <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
                     ))}
                 </Select>
+                <FormHelperText style={{ color: '#d32f2f' }}>{getIn(errors, "company.id")}</FormHelperText>
             </FormControl>
             <FormTextField
                 label="CEP"
