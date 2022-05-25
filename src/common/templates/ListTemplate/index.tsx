@@ -3,7 +3,6 @@ import { useRouter } from "next/router"
 import AdminTemplate from "../AdminTemplate"
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { useDispatch } from "react-redux";
 
 const ListTemplate = ({
     sectionName,
@@ -23,7 +22,6 @@ const ListTemplate = ({
     refetch?: any,
 }) => {
     const router = useRouter()
-
     const handleDelete = async (id: string) => {
         await handleDeleteOne(id)
         refetch()
@@ -80,8 +78,14 @@ const ListTemplate = ({
                                 ))}
                             </Box>
                             <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-                                <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => handleDelete(items[0].value)} />
-                                <ModeEditIcon style={{ cursor: 'pointer' }} onClick={() => router.push(handleEditPath + items[0].value)} />
+                                <DeleteIcon
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => handleDelete(items[0].value)}
+                                />
+                                <ModeEditIcon
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => router.push(handleEditPath + items[0].value)}
+                                />
                             </Box>
                         </Box>
                     ))}

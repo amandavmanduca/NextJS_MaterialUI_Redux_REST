@@ -1,4 +1,3 @@
-import { useGetUserById } from "../../../src/features/sign-in/hooks/getUserById";
 import { useLogin } from "../../../src/features/sign-in/hooks/useLogin";
 import createAsyncSlice from "../helpers/createAsyncSlice";
 import { getCookie } from "../helpers/getCookie";

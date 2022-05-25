@@ -10,12 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useCreateUser } from '../src/features/sign-up/hooks/useCreateUser';
-import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { useRouter } from 'next/router';
 import { fetchToken } from '../store/ducks/reducers/auth';
 import { useDispatch } from 'react-redux';
-
-
 
 export default function SignUp() {
   const { create } = useCreateUser()

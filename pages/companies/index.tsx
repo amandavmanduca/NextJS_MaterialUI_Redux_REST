@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
 import ListTemplate from "../../src/common/templates/ListTemplate";
 import { useDeleteCompany } from "../../src/features/companies/hooks/useDeleteCompany";

@@ -12,12 +12,10 @@ import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchToken } from '../store/ducks/reducers/auth';
-import { setLogoutTime } from '../store/ducks/helpers/handleLogoutTime';
 
 function SignIn() {
     const router = useRouter()
     const dispatch = useDispatch()
-    //@ts-ignore
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -46,7 +44,6 @@ function SignIn() {
           <Avatar sx={{ m: 1, bgcolor: 'secundary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          {/* <h1 onClick={() => dispatch(logoutHook(router))}>fazer logout</h1> */}
           <Typography component="h1" variant="h5">
             Realize login
           </Typography>
