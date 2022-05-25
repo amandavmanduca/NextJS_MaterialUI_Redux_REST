@@ -1,5 +1,7 @@
 import { Snackbar } from "@mui/material"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux";
+import { setSnackBarMessage } from "../../../../store/ducks/actions/main";
 
 export const SnackBarAlert = ({
     message
@@ -7,11 +9,12 @@ export const SnackBarAlert = ({
     message: string;
 }) => {
     const [open, setOpen] = useState<boolean>(false)
+    const dispatch = useDispatch()
     const duration = 3000
     useEffect(() => {
-        if(message) {
+        if(message !== '') {
             setOpen(true)
-            setTimeout(() => setOpen(false), duration)
+            setTimeout(() => (setOpen(false), dispatch(setSnackBarMessage(''))), duration)
         }
     }, [message])
     return (

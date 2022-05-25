@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { setSnackBarMessage } from "../actions/main";
 
 
 const createAsyncSlice = (config: {
@@ -41,9 +42,12 @@ const createAsyncSlice = (config: {
     const asyncAction: any = (payload: any) => async (dispatch: any) => {
         try {
             dispatch(fetchStarted())
-            const response = await config.fetchConfig(payload)
+            const response = await config.fetchConfig(payload) 
+            dispatch(setSnackBarMessage(`Bem vindo ${response.user.name}`))
+            window.location.replace('/companies')
             return dispatch(fetchSuccess(response))
         } catch (error) {
+            dispatch(setSnackBarMessage('Erro ao realizar login'))
             return dispatch(fetchError(error))
         }
     }

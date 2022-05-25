@@ -26,7 +26,6 @@ function SignIn() {
         };
         if (data) {
           await dispatch(fetchToken({ username: data.username, password: data.password }));
-          router.push('/companies');
         }
     };
 
