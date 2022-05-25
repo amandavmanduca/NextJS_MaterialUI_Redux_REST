@@ -15,7 +15,7 @@ const Menu = () => {
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;',
+                boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px',
                 justifyContent: 'space-between',
                 width: '100%',
                 height: '100%',

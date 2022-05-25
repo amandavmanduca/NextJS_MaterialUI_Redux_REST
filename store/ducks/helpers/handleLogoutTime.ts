@@ -3,7 +3,6 @@ import { getCookie } from "./getCookie";
 
 
 export function setLogoutTime(duration: string) {
-    console.log('duration ', duration)
     const durationInMiliSeconds = Number(duration) * 1000;
     const now = new Date().getTime();
     const logoutTime = now + durationInMiliSeconds

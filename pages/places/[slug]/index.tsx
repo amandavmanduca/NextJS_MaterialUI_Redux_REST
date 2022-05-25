@@ -12,7 +12,7 @@ const UpdatePlace = ({ slug }: any) => {
     const { update } = useUpdatePlace()
     const [initialValues, setInitialValues] = useState<any>(null)
 
-    const loggedUserId: string = useSelector((data: any) => data?.user?.data?.id)
+    const loggedUserId: string = useSelector((data: any) => data?.auth?.data?.user?.id)
 
     useEffect(() => {
         if (slug) {

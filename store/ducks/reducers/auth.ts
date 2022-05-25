@@ -4,7 +4,6 @@ import createAsyncSlice from "../helpers/createAsyncSlice";
 import { getCookie } from "../helpers/getCookie";
 
 const { login } = useLogin()
-const { getUser } = useGetUserById()
 
 const foundToken = getCookie('token')
 const foundUserId = getCookie('user')
@@ -14,6 +13,9 @@ const token = createAsyncSlice({
     initialState: {
         data: {
             token: foundToken,
+            user: {
+                id: foundUserId,
+            }
         },
     },
     reducers: {
@@ -79,30 +81,9 @@ const token = createAsyncSlice({
     fetchConfig: (user: { username: string, password: string }) => login({ username: user.username, password: user.password })
 })
 
-
-const user = createAsyncSlice({
-    name: 'user',
-    initialState: {
-        data: {
-            id: foundUserId,
-        },
-    },
-    fetchConfig: (id: string) => getUser(id)
-})
-
-
 export const fetchToken = token.asyncAction;
-export const fetchUser = user.asyncAction;
 export const fetchLogout: any = token.actions.fetchLogout
-
-
-export const autoLogin = (id: string) => async (dispatch: any) => {
-    if (id) {
-        await dispatch(fetchUser(id))
-    }
-}
 
 export {
     token,
-    user
 }

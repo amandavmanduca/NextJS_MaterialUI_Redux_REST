@@ -62,7 +62,7 @@ export const FormFieldArray = ({
                 })
               }
             >
-              Adicionar
+              Adicionar Responsável
             </Button>
           </div>
         )}
