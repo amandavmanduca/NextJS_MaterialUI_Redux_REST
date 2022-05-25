@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchToken } from '../store/ducks/reducers/auth';
+import { setLogoutTime } from '../store/ducks/helpers/handleLogoutTime';
 
 function SignIn() {
     const router = useRouter()

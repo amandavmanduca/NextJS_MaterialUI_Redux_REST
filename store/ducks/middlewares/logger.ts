@@ -1,4 +1,5 @@
 import { destroyCookie, setCookie } from 'nookies'
+import { setLogoutTime } from '../helpers/handleLogoutTime'
 
 export const cookies = (store: any) => (next: any) => (action: any) => {
     const result = next(action)
@@ -12,6 +13,9 @@ export const cookies = (store: any) => (next: any) => (action: any) => {
             })
             :
             destroyCookie(null, meta.cookie.key)
+            if (meta.cookie.session_duration_in_seconds) {
+                setLogoutTime(meta.cookie.session_duration_in_seconds)
+            }
         }
         if (meta.user) {
             meta.user.id !== null ?
