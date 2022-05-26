@@ -20,7 +20,6 @@ export const useGetCompanyById = () => {
             const company = await res.data
             setData(company)
         } catch (error: any) {
-            console.log(error)
             if (error.response) {
                 console.log(error.response.data)
             }

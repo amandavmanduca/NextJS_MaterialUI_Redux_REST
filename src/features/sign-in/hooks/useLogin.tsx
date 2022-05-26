@@ -17,7 +17,6 @@ export const useLogin = () => {
             const user: AuthUser = await res.data
             return user
         } catch (error: any) {
-            console.log(error)
             if (error.response) {
                 console.log(error.response.data)
             }

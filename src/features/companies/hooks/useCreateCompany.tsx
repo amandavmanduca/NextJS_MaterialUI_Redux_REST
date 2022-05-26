@@ -19,7 +19,6 @@ export const useCreateCompany = () => {
             dispatch(setSnackBarMessage("Empresa criada com sucesso"));
             return company
         } catch (error: any) {
-            console.log(error)
             dispatch(setSnackBarMessage("Erro ao criar empresa"));
             if (error.response) {
                 console.log(error.response.data)

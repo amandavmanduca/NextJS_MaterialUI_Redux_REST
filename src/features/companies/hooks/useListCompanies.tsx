@@ -17,7 +17,9 @@ export const useListCompanies = () => {
             });
             setData(response)
         } catch (error: any) {
-            console.error(error);
+            if (error.response) {
+                console.log(error.response.data)
+            }
         }
     }
 

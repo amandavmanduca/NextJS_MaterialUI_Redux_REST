@@ -25,10 +25,11 @@ export type AuthUser = {
 }
 
 export type Address = {
+    id?: string;
     cep: string;
     state: string;
     city: string;
-    neightborhood: string;
+    neighborhood: string;
     street: string;
     complement?: string;
     number: string;
@@ -79,10 +80,14 @@ export type Ticket = {
     deletedAt?: Date | null;
 }
 
+type CreatePlaceCompanyRelation = {
+    id: string;
+}
+
 export type Place = {
     id?: string;
     name: string;
-    company: Company;
+    company: Company | CreatePlaceCompanyRelation;
     tickets?: Ticket[];
     responsibles?: Responsible[]
     address: Address;

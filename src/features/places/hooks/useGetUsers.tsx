@@ -20,7 +20,6 @@ export const useGetUsers = () => {
             const items = await res.data
             setData(items)
         } catch (error: any) {
-            console.log(error)
             if (error.response) {
                 console.log(error.response.data)
             }

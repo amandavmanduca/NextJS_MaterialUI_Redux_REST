@@ -20,7 +20,6 @@ export const useGetPlaceById = () => {
             const place = await res.data
             setData(place)
         } catch (error: any) {
-            console.log(error)
             if (error.response) {
                 console.log(error.response.data)
             }

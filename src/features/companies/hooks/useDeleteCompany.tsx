@@ -17,7 +17,6 @@ export const useDeleteCompany = () => {
             })
             dispatch(setSnackBarMessage("Empresa removida com sucesso"));
         } catch (error: any) {
-            console.log(error)
             if (error.response) {
                 console.log(error.response.data)
                 dispatch(setSnackBarMessage("Erro ao remover empresa"));

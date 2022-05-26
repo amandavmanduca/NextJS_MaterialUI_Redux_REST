@@ -17,7 +17,6 @@ export const useDeletePlace = () => {
             })
             dispatch(setSnackBarMessage("Local removido com sucesso"));
         } catch (error: any) {
-            console.log(error)
             dispatch(setSnackBarMessage("Erro ao remover local"));
             if (error.response) {
                 console.log(error.response.data)

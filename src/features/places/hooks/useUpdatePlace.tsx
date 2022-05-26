@@ -19,7 +19,6 @@ export const useUpdatePlace = () => {
             dispatch(setSnackBarMessage("Local atualizado com sucesso"));
             return place
         } catch (error: any) {
-            console.log(error)
             dispatch(setSnackBarMessage("Erro ao atualizar local"));
             if (error.response) {
                 console.log(error.response.data)
