@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import FullPlaceForm from "../../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../../src/common/templates/AdminTemplate";
+import { Place, Responsible, SlugInitialProps } from "../../../src/common/types";
 import { useGetPlaceById } from "../../../src/features/places/hooks/useGetPlaceById";
 import { useUpdatePlace } from "../../../src/features/places/hooks/useUpdatePlace";
 
-const UpdatePlace = ({ slug }: any) => {
+const UpdatePlace = ({ slug }: { slug: string }) => {
     const { getPlace, data } = useGetPlaceById()
     const router = useRouter()
     const { update } = useUpdatePlace()
@@ -30,9 +31,9 @@ const UpdatePlace = ({ slug }: any) => {
         initialValues &&
         <FullPlaceForm
             initialValues={initialValues}
-            onSubmit={async (values: any) => {
+            onSubmit={async (values: Place) => {
             const { responsibles, ...rest } = values
-            const formatedResponsibles = responsibles?.map((r: any) => {
+            const formatedResponsibles = responsibles?.map((r: Responsible) => {
                 const { id, ...rest } = r
                 if (String(id)?.includes('.')) {
                     return { ... rest }
@@ -54,6 +55,6 @@ UpdatePlace.template = AdminTemplate
 
 export default UpdatePlace;
 
-UpdatePlace.getInitialProps = ({ query: { slug } }: any) => {
+UpdatePlace.getInitialProps = ({ query: { slug } }: SlugInitialProps) => {
     return { slug };
 };

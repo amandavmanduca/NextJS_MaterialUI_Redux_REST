@@ -5,17 +5,18 @@ import AdminTemplate from "../../../src/common/templates/AdminTemplate";
 import { useGetTicketById } from "../../../src/features/tickets/hooks/useGetTicketById";
 import { Button } from "@material-ui/core";
 
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useUpdateTicket } from "../../../src/features/tickets/hooks/useUpdateTicket";
 import { ticketsLabel } from "../../../src/common/utils";
+import { SlugInitialProps, Ticket, TicketStatusType } from "../../../src/common/types";
 
 
-const UpdateTicket = ({ slug }: any) => {
+const UpdateTicket = ({ slug }: { slug: string }) => {
     const { getTicket, data } = useGetTicketById()
     const { update } = useUpdateTicket()
     const router = useRouter()
-    const [initialValues, setInitialValues] = useState<any>({})
-    const [status, setStatus] = useState('');
+    const [initialValues, setInitialValues] = useState<Ticket>()
+    const [status, setStatus] = useState<TicketStatusType | any>('');
 
     useEffect(() => {
         if (slug) {
@@ -30,17 +31,17 @@ const UpdateTicket = ({ slug }: any) => {
         }
     }, [data])
 
-    const statusOptions = [
+    const statusOptions: { value: TicketStatusType; label: string }[] = [
         {
-            value: "PENDING",
+            value: TicketStatusType.PENDING,
             label: ticketsLabel["PENDING"],
         },
         {
-            value: "IN_PROGRESS",
+            value: TicketStatusType.IN_PROGRESS,
             label: ticketsLabel["IN_PROGRESS"],
         },
         {
-            value: "FINISHED",
+            value: TicketStatusType.FINISHED,
             label: ticketsLabel["FINISHED"],
         },
     ]
@@ -67,9 +68,9 @@ const UpdateTicket = ({ slug }: any) => {
                     variant="outlined"
                     value={status}
                     label="Atualizar Status"
-                    onChange={(value: any) => setStatus(value.target.value)}
+                    onChange={(value: SelectChangeEvent<"" | TicketStatusType>) => setStatus(value.target.value)}
                 >
-                    {statusOptions?.map(c => (
+                    {statusOptions?.map((c: { value: TicketStatusType; label: string }) => (
                         <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
                     ))}
                 </Select>
@@ -90,6 +91,6 @@ UpdateTicket.template = AdminTemplate
 
 export default UpdateTicket;
 
-UpdateTicket.getInitialProps = ({ query: { slug } }: any) => {
+UpdateTicket.getInitialProps = ({ query: { slug } }: SlugInitialProps) => {
     return { slug };
 };

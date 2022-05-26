@@ -3,8 +3,10 @@ import { SnackBarAlert } from "../SnackBarAlert";
 
 const AlertSection = ({
     children
-}: any) => {
-    const message: any = useSelector((data: any) => data?.snackbar?.message)
+}: {
+    children: React.ReactNode
+}) => {
+    const message: string = useSelector((data: any) => data?.snackbar?.message)
     return (
         <>
             {children}

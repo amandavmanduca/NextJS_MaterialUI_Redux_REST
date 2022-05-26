@@ -1,11 +1,12 @@
+import { LoginUser } from "../../../src/common/types";
 import { useLogin } from "../../../src/features/sign-in/hooks/useLogin";
 import createAsyncSlice from "../helpers/createAsyncSlice";
 import { getCookie } from "../helpers/getCookie";
 
 const { login } = useLogin()
 
-const foundToken = getCookie('token')
-const foundUserId = getCookie('user')
+const foundToken: string | null = getCookie('token')
+const foundUserId: string | null = getCookie('user')
 
 const token = createAsyncSlice({
     name: 'login',
@@ -77,11 +78,11 @@ const token = createAsyncSlice({
             }
         },
     },
-    fetchConfig: (user: { username: string, password: string }) => login({ username: user.username, password: user.password })
+    fetchConfig: (user: LoginUser) => login({ username: user.username, password: user.password })
 })
 
 export const fetchToken = token.asyncAction;
-export const fetchLogout: any = token.actions.fetchLogout
+export const fetchLogout = token.actions.fetchLogout
 
 export {
     token,

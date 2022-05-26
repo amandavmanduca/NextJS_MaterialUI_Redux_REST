@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import FullPlaceForm from "../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import { Place } from "../../src/common/types";
 import { useCreatePlace } from "../../src/features/places/hooks/useCreatePlace";
 
 function CreatePlace() {
@@ -27,7 +28,7 @@ function CreatePlace() {
           },
           responsibles: []
         }}
-        onSubmit={async (values: any) => {
+        onSubmit={async (values: Place) => {
           const { responsibles, ...rest } = values
           const formatedResponsibles = responsibles?.map((r: any) => {
             const { id, attendant_userId, ...rest } = r

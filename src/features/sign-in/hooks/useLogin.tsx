@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AuthUser } from '../../../common/types';
 import { apiURL } from '../../../common/utils';
 
 export const useLogin = () => {
@@ -13,7 +14,7 @@ export const useLogin = () => {
                     'Content-Type': 'application/json'
                 }
             })
-            const user = await res.data
+            const user: AuthUser = await res.data
             return user
         } catch (error: any) {
             console.log(error)

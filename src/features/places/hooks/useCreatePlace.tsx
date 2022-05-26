@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSnackBarMessage } from '../../../../store/ducks/actions/main';
+import { Place } from '../../../common/types';
 import { apiURL } from '../../../common/utils';
 
 export const useCreatePlace = () => {
     //@ts-ignore
-    const userToken = useSelector(data => data?.auth.data.token)
+    const userToken: string = useSelector(data => data?.auth.data.token)
     const dispatch = useDispatch()
-    async function create(values: any) {
+    async function create(values: Place) {
         try {
             const res = await axios.post(`${apiURL}/places`, values,
             {

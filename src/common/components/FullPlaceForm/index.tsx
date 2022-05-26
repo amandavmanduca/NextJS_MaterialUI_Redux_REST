@@ -4,11 +4,15 @@ import { Form, Formik } from "formik";
 import { FormFieldArray } from "../FieldArray";
 import { PlaceForm } from "../PlaceForm";
 import { createValidationSchema, updateValidationSchema } from "./placeFormValidation";
+import { Place } from "../../types";
 
 const FullPlaceForm = ({
   initialValues,
   onSubmit
-}: any) => {
+}: {
+  initialValues: Place;
+  onSubmit: any;
+}) => {
   const currentSchema = initialValues?.id ? updateValidationSchema : createValidationSchema
   return (
     <div>

@@ -4,11 +4,15 @@ import { Form, Formik } from "formik";
 import { FormFieldArray } from "../FieldArray";
 import { CompanyForm } from "../CompanyForm";
 import { baseSchema } from "./companyFormValidation";
+import { Company } from "../../types";
 
 const FullCompanyForm = ({
   initialValues,
   onSubmit
-}: any) => {
+}: {
+  initialValues: Company
+  onSubmit: any
+}) => {
   return (
     <div>
       <Formik

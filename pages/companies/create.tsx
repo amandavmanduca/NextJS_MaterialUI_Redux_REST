@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import FullCompanyForm from "../../src/common/components/FullCompanyForm";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import { Company, Responsible } from "../../src/common/types";
 import { useCreateCompany } from "../../src/features/companies/hooks/useCreateCompany";
 
 function CreateCompany() {
@@ -17,9 +18,9 @@ function CreateCompany() {
           description: '',
           responsibles: []
         }}
-        onSubmit={async (values: any) => {
+        onSubmit={async (values: Company) => {
           const { responsibles, ...rest } = values
-          const formatedResponsibles = responsibles?.map((r: any) => {
+          const formatedResponsibles = responsibles?.map((r: Responsible) => {
             const { id, ...rest } = r
             return { ...rest }
           })

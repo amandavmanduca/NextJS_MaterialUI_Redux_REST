@@ -9,18 +9,17 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchToken } from '../store/ducks/reducers/auth';
+import { LoginUser } from '../src/common/types';
 
 function SignIn() {
-    const router = useRouter()
     const dispatch = useDispatch()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const data = {
+        const data: LoginUser = {
           username: String(formData.get('email')),
           password: String(formData.get('password')),
         };
