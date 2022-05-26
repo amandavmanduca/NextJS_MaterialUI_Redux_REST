@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSnackBarMessage } from '../../../../store/ducks/actions/main';
+import { setSnackBarMessage } from '../../../../store/actions/main';
 import { apiURL } from '../../../common/utils';
 
 export const useUpdateCompany = () => {

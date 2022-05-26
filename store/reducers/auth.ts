@@ -1,5 +1,5 @@
-import { LoginUser } from "../../../src/common/types";
-import { useLogin } from "../../../src/features/sign-in/hooks/useLogin";
+import { LoginUser } from "../../src/common/types";
+import { useLogin } from "../../src/features/sign-in/hooks/useLogin";
 import createAsyncSlice from "../helpers/createAsyncSlice";
 import { getCookie } from "../helpers/getCookie";
 

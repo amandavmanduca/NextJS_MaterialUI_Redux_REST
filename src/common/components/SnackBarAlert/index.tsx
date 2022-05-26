@@ -1,7 +1,7 @@
 import { Snackbar } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
-import { setSnackBarMessage } from "../../../../store/ducks/actions/main";
+import { setSnackBarMessage } from "../../../../store/actions/main";
 
 export const SnackBarAlert = ({
     message

@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useDispatch } from 'react-redux';
-import { fetchToken } from '../store/ducks/reducers/auth';
+import { fetchToken } from '../store/reducers/auth';
 import { LoginUser } from '../src/common/types';
 
 function SignIn() {

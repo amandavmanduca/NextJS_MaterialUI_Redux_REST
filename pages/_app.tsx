@@ -1,14 +1,13 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
 import { Provider } from 'react-redux'
-import { store } from '../store/ducks/store';
-import { getCookie } from '../store/ducks/helpers/getCookie'
+import { store } from '../store/store';
+import { getCookie } from '../store/helpers/getCookie'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AlertSection from '../src/common/components/AlertSection';
-import { handleAutoLogout } from '../store/ducks/helpers/handleLogoutTime';
+import { handleAutoLogout } from '../store/helpers/handleLogoutTime';
 
 const theme = createTheme({
   palette: {
@@ -65,20 +64,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session}>
-          <Template>
-            <AlertSection>
-              <Component {...pageProps} />
-            </AlertSection>
-          </Template>
-        </SessionProvider>
+        <Template>
+          <AlertSection>
+            <Component {...pageProps} />
+          </AlertSection>
+        </Template>
     </ThemeProvider>
     </Provider>
   )
 }
 
 const EmptyTemplate = ({ children }: { children: React.ReactNode}) => <>{children}</>
-
-
 
 export default MyApp;

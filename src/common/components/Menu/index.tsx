@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { fetchLogout } from '../../../../store/ducks/reducers/auth';
+import { fetchLogout } from '../../../../store/reducers/auth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { menuRoutes } from './menuRoutes';
 
