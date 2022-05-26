@@ -11,7 +11,7 @@ const UpdatePlace = ({ slug }: { slug: string }) => {
     const { getPlace, data } = useGetPlaceById()
     const router = useRouter()
     const { update } = useUpdatePlace()
-    const [initialValues, setInitialValues] = useState<any>(null)
+    const [initialValues, setInitialValues] = useState<Place | null>(null)
 
     const loggedUserId: string = useSelector((data: any) => data?.auth?.data?.user?.id)
 

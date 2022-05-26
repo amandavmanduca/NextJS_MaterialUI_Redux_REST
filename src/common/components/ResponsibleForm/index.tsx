@@ -47,13 +47,13 @@ export const ResponsibleForm = ({
             label: 'Nome',
             name: `${arrayName}[${index}].name`,
             value: p.name,
-            info: getIn(touched, `${arrayName}[${index}].name`)
+            info: getIn(errors, `${arrayName}[${index}].name`)
         },
         {
             label: 'Telefone',
             name: `${arrayName}[${index}].telephone`,
             value: p.telephone,
-            info: getIn(touched, `${arrayName}[${index}].telephone`)
+            info: getIn(errors, `${arrayName}[${index}].telephone`)
         },
         {
             label: 'CEP',
@@ -89,13 +89,13 @@ export const ResponsibleForm = ({
             label: 'Nº',
             name: `${arrayName}[${index}].address.number`,
             value: p.address.number,
-            info: getIn(touched, `${arrayName}[${index}].address.number`)
+            info: getIn(errors, `${arrayName}[${index}].address.number`)
         },
         {
             label: 'Complemento',
             name: `${arrayName}[${index}].address.complement`,
             value: p.address.complement,
-            info: getIn(touched, `${arrayName}[${index}].address.complement`)
+            info: getIn(errors, `${arrayName}[${index}].address.complement`)
         },
     ]
 
@@ -103,7 +103,7 @@ export const ResponsibleForm = ({
         <>
             {fieldsData?.map(field => (
                 <FormTextField
-                    id={field.name}
+                    key={field.name}
                     label={field.label}
                     name={field.name}
                     value={field.value}

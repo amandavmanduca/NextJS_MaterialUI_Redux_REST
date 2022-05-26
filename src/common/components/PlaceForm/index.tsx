@@ -1,5 +1,5 @@
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
-import { Formik, getIn } from "formik"
+import { getIn } from "formik"
 import { useEffect, useState } from "react";
 import { useListCompanies } from "../../../features/companies/hooks/useListCompanies";
 import { useGetUsers } from "../../../features/places/hooks/useGetUsers";
@@ -132,7 +132,8 @@ export const PlaceForm = ({
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select"
                         variant="outlined"
-                        value={values?.attendant_userId}
+                        defaultValue=''
+                        value={values?.attendant_userId ?? ''}
                         label="Usuário Responsável por atender alteração"
                         onChange={(value: any) => setFieldValue(`attendant_userId`, value.target.value)}
                         error={getIn(errors, "attendant_userId")}
@@ -150,7 +151,8 @@ export const PlaceForm = ({
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select"
                     variant="outlined"
-                    value={values?.company?.id}
+                    defaultValue=''
+                    value={values?.company?.id ?? ''}
                     label="Empresa"
                     onChange={(value: any) => setFieldValue(`company.id`, value.target.value)}
                     error={getIn(errors, "company.id")}
@@ -163,7 +165,7 @@ export const PlaceForm = ({
             </FormControl>
             {fieldsData?.map(field => (
                 <FormTextField
-                    id={field.name}
+                    key={field.name}
                     label={field.label}
                     name={field.name}
                     value={field.value}

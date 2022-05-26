@@ -8,7 +8,7 @@ export const addressFormValidation = {
     neighborhood: Yup.string().required('Campo Obrigatório'),
     street: Yup.string().required('Campo Obrigatório'),
     number: Yup.string().required('Campo Obrigatório'),
-    complement: Yup.string().nullable(),
+    complement: Yup.string().nullable().notRequired(),
   }),
 }
 
@@ -17,7 +17,7 @@ export const responsibleFormValidation = {
     Yup.object().shape({
       name: Yup.string().required('Campo Obrigatório'),
       telephone: Yup.string().required('Campo Obrigatório'),
-      isPlaceMainResponsible: Yup.boolean(),
+      isPlaceMainResponsible: Yup.boolean().notRequired(),
       ...addressFormValidation,
     })
   )

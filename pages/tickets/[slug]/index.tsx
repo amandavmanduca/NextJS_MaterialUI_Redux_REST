@@ -65,6 +65,7 @@ const UpdateTicket = ({ slug }: { slug: string }) => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
+                    defaultValue=""
                     variant="outlined"
                     value={status}
                     label="Atualizar Status"

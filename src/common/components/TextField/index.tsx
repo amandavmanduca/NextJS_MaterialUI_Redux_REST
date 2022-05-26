@@ -15,6 +15,7 @@ export const FormTextField = ({
     return (
         <TextField
             margin="normal"
+            id={name}
             variant="outlined"
             style={{ width: '100%', margin: 0 }}
             label={label}
@@ -23,7 +24,7 @@ export const FormTextField = ({
             required={isRequired}
             helperText={
                 touched && error
-                ? error
+                ? String(error)
                 : ""
             }
             InputProps={{
