@@ -11,6 +11,7 @@ export const FormTextField = ({
     value,
     isRequired = true,
     readOnly = false,
+    type = 'text',
 }: any) => {
     return (
         <TextField
@@ -20,6 +21,7 @@ export const FormTextField = ({
             style={{ width: '100%', margin: 0 }}
             label={label}
             name={name}
+            type={type}
             value={value}
             required={isRequired}
             helperText={

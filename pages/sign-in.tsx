@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
+import * as Yup from "yup";
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,25 +11,29 @@ import Container from '@mui/material/Container';
 import { useDispatch } from 'react-redux';
 import { fetchToken } from '../store/reducers/auth';
 import { LoginUser } from '../src/common/types';
+import { Form, Formik, getIn } from 'formik';
+import { FormTextField } from '../src/common/components/TextField';
 
 function SignIn() {
     const dispatch = useDispatch()
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+    const handleSubmit = async (values: LoginUser) => {
         const data: LoginUser = {
-          username: String(formData.get('email')),
-          password: String(formData.get('password')),
+          username: values.username,
+          password: values.password,
         };
         if (data) {
           await dispatch(fetchToken({ username: data.username, password: data.password }));
         }
     };
 
+  const loginSchema = Yup.object().shape({
+    username: Yup.string().email('Deve ser um e-mail válido').required('Campo Obrigatório'),
+    password: Yup.string().required('Campo Obrigatório').min(6, 'Mínimo 6 caracteres'),
+  });
+
   return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -45,35 +48,47 @@ function SignIn() {
           <Typography component="h1" variant="h5">
             Realize login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Login
-            </Button>
+          <Formik
+            initialValues={{
+              username: '',
+              password: '',
+            }}
+            validationSchema={loginSchema}
+            onSubmit={(values) => handleSubmit(values)}
+          >
+            {({ values, touched, errors, handleChange, handleBlur }) => (
+              <Form noValidate autoComplete="off">
+                <FormTextField
+                  label="Email"
+                  name="username"
+                  type="email"
+                  value={values.username}
+                  touched={touched.username}
+                  error={getIn(errors, "username")}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                />
+                <FormTextField
+                  label="Senha"
+                  name="password"
+                  type="password"
+                  value={values.password}
+                  touched={touched.password}
+                  error={getIn(errors, "password")}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Login
+                </Button>
+                </Form>
+            )}
+          </Formik>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/sign-up" variant="body2">
@@ -82,7 +97,6 @@ function SignIn() {
               </Grid>
             </Grid>
           </Box>
-        </Box>
       </Container>
   );
 }
