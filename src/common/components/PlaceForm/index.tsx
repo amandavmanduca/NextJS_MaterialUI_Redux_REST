@@ -77,7 +77,7 @@ export const PlaceForm = ({
             label: 'Nome',
             name: `name`,
             value: values?.name,
-            info: getIn(touched, "name")
+            info: getIn(errors, "name")
         },
         {
             label: 'CEP',

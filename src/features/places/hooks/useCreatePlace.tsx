@@ -17,7 +17,7 @@ export const useCreatePlace = () => {
                 }
             })
             const place = await res.data
-            dispatch(setSnackBarMessage("Local atualizado com sucesso"));
+            dispatch(setSnackBarMessage("Local criado com sucesso"));
             return place
         } catch (error: any) {
             dispatch(setSnackBarMessage("Erro ao atualizar local"));
