@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import * as Yup from "yup";
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,6 +12,7 @@ import { fetchToken } from '../store/reducers/auth';
 import { LoginUser } from '../src/common/types';
 import { Form, Formik, getIn } from 'formik';
 import { FormTextField } from '../src/common/components/TextField';
+import { loginSchema } from '../src/features/sign-in/validation';
 
 function SignIn() {
     const dispatch = useDispatch()
@@ -26,11 +26,6 @@ function SignIn() {
           await dispatch(fetchToken({ username: data.username, password: data.password }));
         }
     };
-
-  const loginSchema = Yup.object().shape({
-    username: Yup.string().email('Deve ser um e-mail válido').required('Campo Obrigatório'),
-    password: Yup.string().required('Campo Obrigatório').min(6, 'Mínimo 6 caracteres'),
-  });
 
   return (
       <Container component="main" maxWidth="xs">
@@ -58,35 +53,37 @@ function SignIn() {
           >
             {({ values, touched, errors, handleChange, handleBlur }) => (
               <Form noValidate autoComplete="off">
-                <FormTextField
-                  label="Email"
-                  name="username"
-                  type="email"
-                  value={values.username}
-                  touched={touched.username}
-                  error={getIn(errors, "username")}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                />
-                <FormTextField
-                  label="Senha"
-                  name="password"
-                  type="password"
-                  value={values.password}
-                  touched={touched.password}
-                  error={getIn(errors, "password")}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Login
-                </Button>
-                </Form>
+                <Grid container gap="20px">
+                  <FormTextField
+                    label="Email"
+                    name="username"
+                    type="email"
+                    value={values.username}
+                    touched={touched.username}
+                    error={getIn(errors, "username")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <FormTextField
+                    label="Senha"
+                    name="password"
+                    type="password"
+                    value={values.password}
+                    touched={touched.password}
+                    error={getIn(errors, "password")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Login
+                  </Button>
+                </Grid>
+              </Form>
             )}
           </Formik>
             <Grid container justifyContent="flex-end">

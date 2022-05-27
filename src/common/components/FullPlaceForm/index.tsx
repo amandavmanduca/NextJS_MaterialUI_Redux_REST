@@ -1,5 +1,6 @@
 import React from "react";
 import { Divider, Button } from "@material-ui/core";
+import Grid from '@mui/material/Grid';
 import { Form, Formik } from "formik";
 import { FormFieldArray } from "../FieldArray";
 import { PlaceForm } from "../PlaceForm";
@@ -23,30 +24,33 @@ const FullPlaceForm = ({
       >
         {({ values, touched, errors, handleChange, handleBlur, setFieldValue }) => (
           <Form noValidate autoComplete="off">
-            <PlaceForm
-                touched={touched}
-                errors={errors}
-                values={values}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                setFieldValue={setFieldValue}
-            />
-            <FormFieldArray
-                arrayName="responsibles"
-                valuesArray={values?.responsibles}
-                touched={touched}
-                errors={errors}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                setFieldValue={setFieldValue}
-            />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-            >
-              Enviar
-            </Button>
+            <Grid container gap="20px">
+              <PlaceForm
+                  touched={touched}
+                  errors={errors}
+                  values={values}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  setFieldValue={setFieldValue}
+              />
+              <Divider style={{ marginTop: 5, marginBottom: 5 }} />
+              <FormFieldArray
+                  arrayName="responsibles"
+                  valuesArray={values?.responsibles}
+                  touched={touched}
+                  errors={errors}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  setFieldValue={setFieldValue}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Enviar
+              </Button>
+            </Grid>
             <Divider style={{ marginTop: 20, marginBottom: 20 }} />
           </Form>
         )}

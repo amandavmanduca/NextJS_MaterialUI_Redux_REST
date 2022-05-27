@@ -21,6 +21,7 @@ export const FormFieldArray = ({
             {valuesArray?.map((p: any, index: number) => {
               return (
                 <div key={p.id}>
+                    <h3>Responsável #{index+1}</h3>
                     <ResponsibleForm
                         p={p}
                         arrayName={arrayName}

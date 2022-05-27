@@ -9,6 +9,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@m
 import { useUpdateTicket } from "../../../src/features/tickets/hooks/useUpdateTicket";
 import { ticketsLabel } from "../../../src/common/utils";
 import { SlugInitialProps, Ticket, TicketStatusType } from "../../../src/common/types";
+import FormAreaTemplate from "../../../src/common/templates/FormAreaTemplate";
 
 
 const UpdateTicket = ({ slug }: { slug: string }) => {
@@ -51,40 +52,43 @@ const UpdateTicket = ({ slug }: { slug: string }) => {
     }
 
     return (
-        initialValues &&
-        <div>
-            <p>{ticketsLabel[data?.status]}</p>
-            <p>{data?.title}</p>
-            <p>{data?.createdAt}</p>
-            <p>{data?.updatedAt}</p>
-            <p>{data?.place?.name}</p>
-            <p>{data?.attendant_user?.name}</p>
-            <p>{data?.creator_user?.name}</p>
-            <FormControl style={{ width: '100%' }}>
-                <InputLabel id="demo-simple-select-label">Atualizar Status</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    defaultValue=""
-                    variant="outlined"
-                    value={status}
-                    label="Atualizar Status"
-                    onChange={(value: SelectChangeEvent<"" | TicketStatusType>) => setStatus(value.target.value)}
-                >
-                    {statusOptions?.map((c: { value: TicketStatusType; label: string }) => (
-                        <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <Button
-                onClick={() => handleStatus()}
-                type="submit"
-                color="primary"
-                variant="contained"
-            >
-                Salvar
-            </Button>
-        </div>
+        <FormAreaTemplate>
+            {initialValues &&
+                <div>
+                    <p>{ticketsLabel[data?.status]}</p>
+                    <p>{data?.title}</p>
+                    <p>{data?.createdAt}</p>
+                    <p>{data?.updatedAt}</p>
+                    <p>{data?.place?.name}</p>
+                    <p>{data?.attendant_user?.name}</p>
+                    <p>{data?.creator_user?.name}</p>
+                    <FormControl style={{ width: '100%' }}>
+                        <InputLabel id="demo-simple-select-label">Atualizar Status</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            defaultValue=""
+                            variant="outlined"
+                            value={status}
+                            label="Atualizar Status"
+                            onChange={(value: SelectChangeEvent<"" | TicketStatusType>) => setStatus(value.target.value)}
+                        >
+                            {statusOptions?.map((c: { value: TicketStatusType; label: string }) => (
+                                <MenuItem key={c.value} style={{ width: '100%' }} value={c.value}>{c.label}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <Button
+                        onClick={() => handleStatus()}
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                    >
+                        Salvar
+                    </Button>
+                </div>
+            }
+        </FormAreaTemplate>
     )
 }
 

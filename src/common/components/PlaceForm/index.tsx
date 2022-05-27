@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { getIn } from "formik"
 import { useEffect, useState } from "react";
 import { useListCompanies } from "../../../features/companies/hooks/useListCompanies";
@@ -165,8 +165,8 @@ export const PlaceForm = ({
             </FormControl>
             {fieldsData?.map(field => (
                 <FormTextField
-                    key={field.name}
                     label={field.label}
+                    key={field.name}
                     name={field.name}
                     value={field.value}
                     touched={field.info}

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,6 +11,11 @@ import { useCreateUser } from '../src/features/sign-up/hooks/useCreateUser';
 import { useRouter } from 'next/router';
 import { fetchToken } from '../store/reducers/auth';
 import { useDispatch } from 'react-redux';
+import { Form, Formik, getIn } from 'formik';
+import { FormTextField } from '../src/common/components/TextField';
+
+import { CreateUser } from '../src/common/types';
+import { signUpSchema } from '../src/features/sign-up/validation';
 
 export default function SignUp() {
   const { create } = useCreateUser()
@@ -20,17 +23,14 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
+  const handleSubmit = async (values: CreateUser) => {
     await create({
-        name: String(formData.get('name')),
-        email: String(formData.get('email')),
-        password: String(formData.get('password')),
+        name: values.name,
+        email: values.email,
+        password: values.password,
     }).then(async (data) => {
       data.email && (
-        await dispatch(fetchToken({ username: data.email, password: String(formData.get('password')) })),
+        await dispatch(fetchToken({ username: data.email, password: values.password })),
         router.push('/companies')
       )
     });
@@ -38,7 +38,6 @@ export default function SignUp() {
 
   return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -53,49 +52,59 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Faça seu cadastro
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  required
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+            }}
+            validationSchema={signUpSchema}
+            onSubmit={(values) => handleSubmit(values)}
+          >
+            {({ values, touched, errors, handleChange, handleBlur }) => (
+              <Form noValidate autoComplete="off">
+                <Grid container gap="20px">
+                  <FormTextField
+                    label="Nome"
+                    name="name"
+                    value={values.name}
+                    touched={touched.name}
+                    error={getIn(errors, "name")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                <FormTextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={values.email}
+                    touched={touched.email}
+                    error={getIn(errors, "email")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <FormTextField
+                    label="Senha"
+                    name="password"
+                    type="password"
+                    value={values.password}
+                    touched={touched.password}
+                    error={getIn(errors, "password")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                </Grid>
+                <Button
+                  type="submit"
                   fullWidth
-                  id="name"
-                  label="Nome"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Senha"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Cadastrar
-            </Button>
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Cadastrar
+                </Button>
+              </Form>
+            )}
+          </Formik>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/sign-in" variant="body2">
@@ -104,7 +113,6 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
-        </Box>
       </Container>
   );
 }

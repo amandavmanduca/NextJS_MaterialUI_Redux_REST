@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import FullCompanyForm from "../../src/common/components/FullCompanyForm";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import FormAreaTemplate from "../../src/common/templates/FormAreaTemplate";
 import { Company, Responsible } from "../../src/common/types";
 import { useCreateCompany } from "../../src/features/companies/hooks/useCreateCompany";
 
@@ -9,7 +9,7 @@ function CreateCompany() {
   const { create } = useCreateCompany();
   const router = useRouter();
   return (
-    <Box style={{ display: 'grid' }}>
+    <FormAreaTemplate>
       <h1>Criação de Empresa</h1>
       <FullCompanyForm
         initialValues={{
@@ -30,7 +30,7 @@ function CreateCompany() {
           }).then(() => router.push('/companies'))
         }}
       />
-    </Box>
+    </FormAreaTemplate>
   );
 }
 
