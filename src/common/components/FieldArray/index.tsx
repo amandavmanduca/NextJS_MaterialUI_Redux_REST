@@ -1,9 +1,6 @@
-import { Button, TextField } from "@mui/material";
-import { FieldArray, getIn } from "formik";
-import { searchCep } from "../../hooks/useSearchCep";
+import { Button, Grid } from "@mui/material";
+import { FieldArray } from "formik";
 import { ResponsibleForm } from "../ResponsibleForm";
-import { FormTextField } from "../TextField";
-
 
 export const FormFieldArray = ({
     arrayName,
@@ -11,30 +8,35 @@ export const FormFieldArray = ({
     touched,
     errors,
     handleChange,
-    handleBlur
+    handleBlur,
+    setFieldValue,
 }: any) => {
     return (
         <FieldArray name={arrayName}>
         {({ push, remove }) => (
           <div>
-            {valuesArray.map((p: any, index: number) => {
+            {valuesArray?.map((p: any, index: number) => {
               return (
-                <div key={p.id}>
-                    <ResponsibleForm
-                        p={p}
-                        arrayName={arrayName}
-                        index={index}
-                        errors={errors}
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        touched={touched}
-                    />
+                <div key={p.id} style={{ marginBottom: '40px' }}>
+                    <h3 style={{ marginBottom: '30px' }}>Responsável #{index+1}</h3>
+                    <Grid container gap="20px">
+                      <ResponsibleForm
+                          p={p}
+                          arrayName={arrayName}
+                          index={index}
+                          errors={errors}
+                          handleChange={handleChange}
+                          handleBlur={handleBlur}
+                          touched={touched}
+                          setFieldValue={setFieldValue}
+                      />
+                    </Grid>
                     <Button
                         type="button"
                         variant="outlined"
                         onClick={() => remove(index)}
                     >
-                        Remover
+                        Remover Responsável {index+1}
                     </Button>
                 </div>
               );
@@ -47,17 +49,20 @@ export const FormFieldArray = ({
                     id: Math.random(),
                     name: "",
                     telephone: "",
-                    cep: "",
-                    state: "",
-                    city: "",
-                    neighborhood: "",
-                    street: "",
-                    number: "",
-                    complement: "",
+                    address: {
+                      cep: "",
+                      state: "",
+                      city: "",
+                      neighborhood: "",
+                      street: "",
+                      number: "",
+                      complement: "",
+                    },
+                    isPlaceMainResponsible: false,
                 })
               }
             >
-              Adicionar
+              + Adicionar Responsável
             </Button>
           </div>
         )}

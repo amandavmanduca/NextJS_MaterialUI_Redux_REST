@@ -11,19 +11,22 @@ export const FormTextField = ({
     value,
     isRequired = true,
     readOnly = false,
-    onChange,
+    type = 'text',
 }: any) => {
     return (
         <TextField
             margin="normal"
+            id={name}
             variant="outlined"
+            style={{ width: '100%', margin: 0 }}
             label={label}
             name={name}
+            type={type}
             value={value}
             required={isRequired}
             helperText={
                 touched && error
-                ? error
+                ? String(error)
                 : ""
             }
             InputProps={{

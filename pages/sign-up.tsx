@@ -1,73 +1,43 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useCreateUser } from '../src/features/sign-up/hooks/useCreateUser';
-import { Alert, AlertColor, Snackbar } from '@mui/material';
+import { useRouter } from 'next/router';
+import { fetchToken } from '../store/reducers/auth';
+import { useDispatch } from 'react-redux';
+import { Form, Formik, getIn } from 'formik';
+import { FormTextField } from '../src/common/components/TextField';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import { CreateUser } from '../src/common/types';
+import { signUpSchema } from '../src/features/sign-up/validation';
 
 export default function SignUp() {
   const { create } = useCreateUser()
-  const [open, setOpen] = React.useState(false);
-  const [modal, setModal] = React.useState<{
-    severity: AlertColor;
-    message: string;
-  }>({
-      severity: "success",
-      message: '',
-  })
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    console.log(event.currentTarget)
-    const data = await create({
-        name: String(formData.get('name')),
-        email: String(formData.get('email')),
-        password: String(formData.get('password')),
+
+  const dispatch = useDispatch()
+  const router = useRouter()
+
+  const handleSubmit = async (values: CreateUser) => {
+    await create({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+    }).then(async (data) => {
+      data.email && (
+        await dispatch(fetchToken({ username: data.email, password: values.password })),
+        router.push('/companies')
+      )
     });
-    if (data) {
-        setModal({
-            severity: 'success',
-            message: `Usuário criado com sucesso`
-        })
-        
-    } else {
-        setModal({
-            severity: 'warning',
-            message: `Erro ao realizar cadastro`
-        })
-    }
-    setOpen(true);
-};
+  };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -82,49 +52,59 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Faça seu cadastro
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  required
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+            }}
+            validationSchema={signUpSchema}
+            onSubmit={(values) => handleSubmit(values)}
+          >
+            {({ values, touched, errors, handleChange, handleBlur }) => (
+              <Form noValidate autoComplete="off">
+                <Grid container gap="20px">
+                  <FormTextField
+                    label="Nome"
+                    name="name"
+                    value={values.name}
+                    touched={touched.name}
+                    error={getIn(errors, "name")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                <FormTextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={values.email}
+                    touched={touched.email}
+                    error={getIn(errors, "email")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <FormTextField
+                    label="Senha"
+                    name="password"
+                    type="password"
+                    value={values.password}
+                    touched={touched.password}
+                    error={getIn(errors, "password")}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                </Grid>
+                <Button
+                  type="submit"
                   fullWidth
-                  id="name"
-                  label="Nome"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Senha"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Cadastrar
-            </Button>
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Cadastrar
+                </Button>
+              </Form>
+            )}
+          </Formik>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/sign-in" variant="body2">
@@ -133,14 +113,6 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-        <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-            <Alert onClose={() => setOpen(false)} severity={modal.severity} sx={{ width: '100%' }}>
-                {modal.message}
-            </Alert>
-        </Snackbar>
       </Container>
-    </ThemeProvider>
   );
 }

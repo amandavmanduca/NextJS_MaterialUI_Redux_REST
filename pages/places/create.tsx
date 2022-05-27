@@ -1,24 +1,53 @@
+import { Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import FullPlaceForm from "../../src/common/components/FullPlaceForm";
+import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import FormAreaTemplate from '../../src/common/templates/FormAreaTemplate';
+import { Place } from "../../src/common/types";
+import { useCreatePlace } from "../../src/features/places/hooks/useCreatePlace";
 
-export default function CreatePlace() {
+function CreatePlace() {
+  const { create } = useCreatePlace();
+  const router = useRouter();
   return (
-    <FullPlaceForm
-      initialValues={{
-        name: '',
-        address: {
-            cep: '',
-            state: '',
-            city: '',
-            street: '',
-            neighborhood: '',
-            number: '',
-            complement: '',
-        },
-        responsibles: []
-      }}
-      onSubmit={(values: any) => {
-        console.log("onSubmit", JSON.stringify(values, null, 2));
-      }}
-    />
+    <FormAreaTemplate>
+        <Typography component="h1" variant="h5" marginBottom="20px">
+          Novo Local
+        </Typography>
+        <FullPlaceForm
+          initialValues={{
+            name: '',
+            company: {
+              id: '',
+            },
+            address: {
+                cep: '',
+                state: '',
+                city: '',
+                street: '',
+                neighborhood: '',
+                number: '',
+                complement: '',
+            },
+            responsibles: []
+          }}
+          onSubmit={async (values: Place) => {
+            const { responsibles, ...rest } = values
+            const formatedResponsibles = responsibles?.map((r: any) => {
+              const { id, attendant_userId, ...rest } = r
+              return { ...rest }
+            })
+            await create({
+              ...rest,
+              responsibles: formatedResponsibles
+            }).then(() => router.push('/places'))
+          }}
+        />
+    </FormAreaTemplate>
   );
 }
+
+
+CreatePlace.template = AdminTemplate
+
+export default CreatePlace;

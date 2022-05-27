@@ -1,5 +1,6 @@
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material"
 import { getIn } from "formik"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { searchCep } from "../../hooks/useSearchCep"
 import { FormTextField } from "../TextField"
 
@@ -12,117 +13,117 @@ export const ResponsibleForm = ({
     errors,
     handleChange,
     handleBlur,
+    setFieldValue,
 }: any) => {
-
+    const [handleCepValidation, setHandleCepValidation] = useState<string | null>(null)
     async function getAddress(cep: string) {
         let address = null
-        if (cep.length === 8) {
+        if (cep?.length === 8) {
             address = await searchCep(cep);
         }
         if (address) {
-            p.state = address.uf
-            p.city = address.localidade
-            p.street = address.logradouro
-            p.neighborhood = address.bairro
-        } else {
-            p.state = ''
-            p.city = ''
-            p.street = ''
-            p.neighborhood = ''
+            if (address.erro !== 'true') {
+                setHandleCepValidation(null)
+                p.address.state = address.uf
+                p.address.city = address.localidade
+                p.address.street = address.logradouro
+                p.address.neighborhood = address.bairro
+            } else {
+                setHandleCepValidation('CEP inválido')
+                p.address.state = ''
+                p.address.city = ''
+                p.address.street = ''
+                p.address.neighborhood = ''
+            }
         }
     }
 
     useEffect(() => {
-        getAddress(p.cep)
-    }, [p.cep])
+        getAddress(p?.address?.cep)
+    }, [p?.address?.cep])
+
+    const fieldsData = [
+        {
+            label: 'Nome',
+            name: `${arrayName}[${index}].name`,
+            value: p.name,
+            info: getIn(errors, `${arrayName}[${index}].name`)
+        },
+        {
+            label: 'Telefone',
+            name: `${arrayName}[${index}].telephone`,
+            value: p.telephone,
+            info: getIn(errors, `${arrayName}[${index}].telephone`)
+        },
+        {
+            label: 'CEP',
+            name: `${arrayName}[${index}].address.cep`,
+            value: p.address.cep,
+            info: getIn(errors, `${arrayName}[${index}].address.cep`) || handleCepValidation
+        },
+        {
+            label: 'Estado',
+            name: `${arrayName}[${index}].address.state`,
+            value: p.address.state,
+            info: getIn(errors, `${arrayName}[${index}].address.state`)
+        },
+        {
+            label: 'Cidade',
+            name: `${arrayName}[${index}].address.city`,
+            value: p.address.city,
+            info: getIn(errors, `${arrayName}[${index}].address.city`)
+        },
+        {
+            label: 'Bairro',
+            name: `${arrayName}[${index}].address.neighborhood`,
+            value: p.address.neighborhood,
+            info: getIn(errors, `${arrayName}[${index}].address.neighborhood`)
+        },
+        {
+            label: 'Logradouro',
+            name: `${arrayName}[${index}].address.street`,
+            value: p.address.street,
+            info: getIn(errors, `${arrayName}[${index}].address.street`)
+        },
+        {
+            label: 'Nº',
+            name: `${arrayName}[${index}].address.number`,
+            value: p.address.number,
+            info: getIn(errors, `${arrayName}[${index}].address.number`)
+        },
+        {
+            label: 'Complemento',
+            name: `${arrayName}[${index}].address.complement`,
+            value: p.address.complement,
+            info: getIn(errors, `${arrayName}[${index}].address.complement`)
+        },
+    ]
 
     return (
         <>
-            <FormTextField
-                label="Nome"
-                name={`${arrayName}[${index}].name`}
-                value={p.name}
-                touched={getIn(touched, `${arrayName}[${index}].name`)}
-                error={getIn(errors, `${arrayName}[${index}].name`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Telefone"
-                name={`${arrayName}[${index}].telephone`}
-                value={p.telephone}
-                touched={getIn(touched, `${arrayName}[${index}].telephone`)}
-                error={getIn(errors, `${arrayName}[${index}].telephone`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="CEP"
-                name={`${arrayName}[${index}].cep`}
-                value={p.cep}
-                touched={getIn(touched, `${arrayName}[${index}].cep`)}
-                error={getIn(errors, `${arrayName}[${index}].cep`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Estado"
-                name={`${arrayName}[${index}].state`}
-                value={p.state}
-                touched={getIn(touched, `${arrayName}[${index}].state`)}
-                error={getIn(errors, `${arrayName}[${index}].state`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Cidade"
-                name={`${arrayName}[${index}].city`}
-                value={p.city}
-                touched={getIn(touched, `${arrayName}[${index}].city`)}
-                error={getIn(errors, `${arrayName}[${index}].city`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Bairro"
-                name={`${arrayName}[${index}].neighborhood`}
-                value={p.neighborhood}
-                touched={getIn(touched, `${arrayName}[${index}].neighborhood`)}
-                error={getIn(errors, `${arrayName}[${index}].neighborhood`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Logradouro"
-                name={`${arrayName}[${index}].street`}
-                value={p.street}
-                touched={getIn(touched, `${arrayName}[${index}].street`)}
-                error={getIn(errors, `${arrayName}[${index}].street`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                readOnly={true}
-            />
-            <FormTextField
-                label="Nº"
-                name={`${arrayName}[${index}].number`}
-                value={p.number}
-                touched={getIn(touched, `${arrayName}[${index}].number`)}
-                error={getIn(errors, `${arrayName}[${index}].number`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormTextField
-                label="Complemento"
-                name={`${arrayName}[${index}].complement`}
-                value={p.complement}
-                touched={getIn(touched, `${arrayName}[${index}].complement`)}
-                error={getIn(errors, `${arrayName}[${index}].complement`)}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
+            {fieldsData?.map(field => (
+                <FormTextField
+                    key={field.name}
+                    label={field.label}
+                    name={field.name}
+                    value={field.value}
+                    touched={field.info}
+                    error={field.info}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                />
+            ))}
+            <FormGroup style={{ padding: '10px 10px' }}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={p.isPlaceMainResponsible}
+                            onChange={() => setFieldValue(`${arrayName}[${index}].isPlaceMainResponsible`, !p.isPlaceMainResponsible)}
+                        />
+                    }
+                    label="Responsável Principal"
+                />
+            </FormGroup>
         </>
     )
 }

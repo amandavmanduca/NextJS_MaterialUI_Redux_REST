@@ -1,48 +1,56 @@
-import { ThemeProvider } from "@emotion/react"
-import { Box, Container, createTheme, Typography } from "@mui/material"
-import { useEffect } from "react";
-import { searchCep } from "../../src/common/hooks/useSearchCep";
+import { useEffect, useState } from "react";
+import AdminTemplate from "../../src/common/templates/AdminTemplate";
+import ListTemplate from "../../src/common/templates/ListTemplate";
+import { Company, ListTemplateItem } from "../../src/common/types";
+import { useDeleteCompany } from "../../src/features/companies/hooks/useDeleteCompany";
 import { useListCompanies } from "../../src/features/companies/hooks/useListCompanies";
 
-
-const theme = createTheme();
-
-export default function Companies() {
+const Companies = (): React.ReactNode => {
     const { data, listCompanies } = useListCompanies();
+    const { deleteOne } = useDeleteCompany()
+    const [values, setValues] = useState<Array<ListTemplateItem[]> | []>([])
 
     useEffect(() => {
         listCompanies()
     }, [])
-    
-    return(
-        <ThemeProvider theme={theme}>
-            <Container component="main">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-                >
-                    <Typography component="h1" variant="h5">
-                        Empresas
-                    </Typography>
-                    {data?.map((company: any) => (
-                        <Box key={company.id}>
-                            <Typography component="p">
-                                {company.name}
-                            </Typography>
-                            <Typography component="p">
-                                {company.cnpj}
-                            </Typography>
-                            <Typography component="p">
-                                {company.description}
-                            </Typography>
-                        </Box>
-                    ))}
-                </Box>
-            </Container>
-        </ThemeProvider>
+
+    useEffect(() => {
+        if (data) {
+            const items: Array<ListTemplateItem[]> = data?.map((company: Company) => ([
+                {
+                    label: 'id',
+                    value: company.id,
+                },
+                {
+                    label: 'Nome',
+                    value: company.name,
+                },
+                {
+                    label: 'CNPJ',
+                    value: company.cnpj,
+                },
+                {
+                    label: 'Descrição',
+                    value: company.description,
+                },
+            ]))
+            setValues(items)
+        }
+    }, [data])
+
+    return (
+        <ListTemplate
+            buttonName="+ Adicionar Empresa"
+            handleButtonPath="/companies/create"
+            handleEditPath="/companies/"
+            sectionName="Empresas"
+            values={values}
+            handleDeleteOne={deleteOne}
+            refetch={listCompanies}
+        />
     )
 }
+
+Companies.template = AdminTemplate
+
+export default Companies

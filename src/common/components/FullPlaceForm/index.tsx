@@ -1,68 +1,56 @@
 import React from "react";
 import { Divider, Button } from "@material-ui/core";
+import Grid from '@mui/material/Grid';
 import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import { FormFieldArray } from "../FieldArray";
 import { PlaceForm } from "../PlaceForm";
-
-// const validationSchema = Yup.object().shape({
-//   responsibles: Yup.array().of(
-//     Yup.object().shape({
-//       firstName: Yup.string().required("First name is required"),
-//       lastName: Yup.string().required("Last name is required")
-//     })
-//   )
-// });
-
-// const debug = true;
+import { createValidationSchema, updateValidationSchema } from "./placeFormValidation";
+import { Place } from "../../types";
 
 const FullPlaceForm = ({
   initialValues,
   onSubmit
-}: any) => {
+}: {
+  initialValues: Place;
+  onSubmit: any;
+}) => {
+  const currentSchema = initialValues?.id ? updateValidationSchema : createValidationSchema
   return (
     <div>
       <Formik
-        initialValues={initialValues ?? {
-            name: '',
-            address: {
-                cep: '',
-                state: '',
-                city: '',
-                street: '',
-                neighborhood: '',
-                number: '',
-                complement: '',
-            },
-            responsibles: []
-        }}
-        // validationSchema={validationSchema}
+        initialValues={initialValues}
+        validationSchema={currentSchema}
         onSubmit={onSubmit}
       >
-        {({ values, touched, errors, handleChange, handleBlur, isValid }) => (
+        {({ values, touched, errors, handleChange, handleBlur, setFieldValue }) => (
           <Form noValidate autoComplete="off">
-            <PlaceForm
-                touched={touched}
-                errors={errors}
-                values={values}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <FormFieldArray
-                arrayName="responsibles"
-                valuesArray={values.responsibles}
-                touched={touched}
-                errors={errors}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-            />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-            >
-              Enviar
-            </Button>
+            <Grid container gap="20px">
+              <PlaceForm
+                  touched={touched}
+                  errors={errors}
+                  values={values}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  setFieldValue={setFieldValue}
+              />
+              <Divider style={{ marginTop: 5, marginBottom: 5 }} />
+              <FormFieldArray
+                  arrayName="responsibles"
+                  valuesArray={values?.responsibles}
+                  touched={touched}
+                  errors={errors}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  setFieldValue={setFieldValue}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Enviar
+              </Button>
+            </Grid>
             <Divider style={{ marginTop: 20, marginBottom: 20 }} />
           </Form>
         )}
