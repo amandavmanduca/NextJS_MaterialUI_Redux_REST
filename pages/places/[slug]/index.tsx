@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -30,6 +31,9 @@ const UpdatePlace = ({ slug }: { slug: string }) => {
 
     return (
         <FormAreaTemplate>
+            <Typography component="h1" variant="h5" marginBottom="20px">
+                Editando Local "{initialValues?.name}"
+            </Typography>
             {initialValues &&
             <FullPlaceForm
                 initialValues={initialValues}

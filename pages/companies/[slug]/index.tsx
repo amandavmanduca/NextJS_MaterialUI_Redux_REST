@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import FullCompanyForm from "../../../src/common/components/FullCompanyForm";
@@ -28,6 +29,9 @@ const UpdateCompany = ({ slug }: { slug: string }) => {
 
     return (
         <FormAreaTemplate>
+            <Typography component="h1" variant="h5" marginBottom="20px">
+                Editando Empresa "{initialValues?.name}"
+            </Typography>
             {initialValues && (
                 <FullCompanyForm
                     initialValues={initialValues}

@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import FullPlaceForm from "../../src/common/components/FullPlaceForm";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
@@ -10,7 +11,9 @@ function CreatePlace() {
   const router = useRouter();
   return (
     <FormAreaTemplate>
-        <h1>Criação de Local</h1>
+        <Typography component="h1" variant="h5" marginBottom="20px">
+          Novo Local
+        </Typography>
         <FullPlaceForm
           initialValues={{
             name: '',

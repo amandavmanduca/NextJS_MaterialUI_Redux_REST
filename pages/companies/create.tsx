@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import FullCompanyForm from "../../src/common/components/FullCompanyForm";
 import AdminTemplate from "../../src/common/templates/AdminTemplate";
@@ -10,7 +11,9 @@ function CreateCompany() {
   const router = useRouter();
   return (
     <FormAreaTemplate>
-      <h1>Criação de Empresa</h1>
+      <Typography component="h1" variant="h5" marginBottom="20px">
+        Nova Empresa
+      </Typography>
       <FullCompanyForm
         initialValues={{
           name: '',

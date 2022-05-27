@@ -17,6 +17,7 @@ const Menu = () => {
                 flexDirection: 'column',
                 boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px',
                 justifyContent: 'space-between',
+                padding: '20px 0px',
                 width: '100%',
                 height: '100%',
             }}
@@ -40,6 +41,7 @@ const Menu = () => {
                             borderBottom: '2px solid white',
                             padding: '20px 0px',
                             cursor: 'pointer',
+                            gap: '15px',
                         }}>
                         <p>{route.name}</p>
                         <route.icon />
@@ -55,6 +57,7 @@ const Menu = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
+                    gap: '15px',
                 }}
             >
                 <LogoutIcon />
