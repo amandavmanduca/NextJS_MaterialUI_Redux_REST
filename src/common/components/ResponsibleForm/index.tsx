@@ -123,6 +123,7 @@ export const ResponsibleForm = ({
                     }
                     label="Responsável Principal"
                 />
+                <p style={{ color: '#d32f2f', fontSize: '12px' }}>{getIn(errors, `uniqueMainResponsible`)}</p>
             </FormGroup>
         </>
     )

@@ -20,5 +20,11 @@ export const responsibleFormValidation = {
       isPlaceMainResponsible: Yup.boolean().notRequired(),
       ...addressFormValidation,
     })
-  )
+  ).test(function (array) {
+    const available = array?.filter((responsible) => responsible.isPlaceMainResponsible === true)
+    if (available && available?.length > 1) {
+      return this.createError({ message: 'Somente um responsável deve ser o principal', path: 'uniqueMainResponsible' })
+    }
+    return true
+  })
 }
