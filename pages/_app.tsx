@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
             <Component {...pageProps} />
           </AlertSection>
         </Template>
-    </ThemeProvider>
+      </ThemeProvider>
     </Provider>
   )
 }

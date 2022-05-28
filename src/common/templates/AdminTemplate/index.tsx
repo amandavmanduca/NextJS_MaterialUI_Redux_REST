@@ -1,6 +1,18 @@
+import { useEffect, useState } from "react";
+import { getCookie } from "../../../../store/helpers/getCookie";
 import Menu from "../../components/Menu";
 
 const AdminTemplate = ({ children }: { children: React.ReactNode }) => {
+    const [isAuth, setIsAuth] = useState<boolean>(false)
+    useEffect(() => {
+        const token = getCookie('token')
+        if(token) {
+            setIsAuth(true)
+        }
+    }, [])
+
+    if (!isAuth) return <></>
+
     return (
         <div
             style={{
